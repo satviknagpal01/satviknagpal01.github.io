@@ -12,3 +12,127 @@ a {
   font-size: 1.5rem;
   margin-right: 0.5rem;
 }
+
+/* for the heading*/
+
+@import url("https://fonts.googleapis.com/css?family=Raleway:400,400i,700");
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: #e4e9ed;
+  font-family: Raleway, sans-serif;
+}
+
+br {
+  margin-bottom: 2%;
+}
+
+.header {
+  width: 100%;
+  height: 80vh;
+  position: relative;
+  display: grid;
+  grid-template-rows: max-content 1fr;
+  grid-template-columns: 1fr max-content;
+}
+.header__logo {
+  fill: white;
+  width: 3rem;
+  padding: 1rem;
+  cursor: pointer;
+}
+.header__bg {
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  filter: brightness(50%);
+  clip-path: polygon(0 0, 100% 0, 100% 80%, 0 100%);
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
+}
+.header__title {
+  grid-area: 2/1/2/3;
+  align-self: center;
+  justify-self: center;
+  color: white;
+  text-transform: uppercase;
+  font-size: 4rem;
+  text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4);
+  margin-top: -5rem;
+}
+.header__log {
+  display: flex;
+  align-items: center;
+  grid-area: 1/2/1/3;
+  padding: 1rem 2rem;
+  color: white;
+  cursor: pointer;
+  text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4);
+}
+.header__log--icon {
+  fill: currentColor;
+  margin-right: 0.5rem;
+  filter: drop-shadow(0px 2px 4px rgba(0, 0, 0, 0.5));
+}
+.header__log--text {
+  text-transform: capitalize;
+}
+
+.about {
+  width: 100%;
+  height: 60vh;
+  margin-top: -7rem;
+  clip-path: polygon(0 27%, 100% 0, 100% 100%, 0 100%);
+}
+.about__title {
+  padding-top: 7rem;
+  text-align: center;
+  text-transform: uppercase;
+}
+.about__title--text {
+  color: #232323;
+}
+.about__text {
+  width: 80%;
+  margin: 5% auto;
+}
+.about__text--content {
+  text-align: justify;
+}
+
+/* navigation bar*/
+
+.topnav {
+  background-color: #333;
+  overflow: hidden;
+}
+
+/* Style the links inside the navigation bar */
+.topnav a {
+  float: left;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 27px;
+}
+
+/* Change the color of links on hover */
+.topnav a:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+/* Add a color to the active/current link */
+.topnav a.active {
+  background-color: #005eaf;
+  color: white;
+}
