@@ -285,6 +285,10 @@ content {
     SCROLLBAR STYLE FOR IE
 */
 body {
+  height: 100%;
+  width: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
   scrollbar-base-color: #0070cc;
   scrollbar-3dlight-color: #fff;
   scrollbar-highlight-color: #0070cc;
@@ -484,6 +488,10 @@ label.hamburger {
 
 
 body {
+  height: 100%;
+        width: 100%;
+        overflow-y: auto;
+        overflow-x: hidden;
   background-color: #100e17;
   font-family: "Open Sans", sans-serif;
 }
