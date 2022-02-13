@@ -1,131 +1,107 @@
 <!DOCTYPE html>
-<html >
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Unity WebGL Player | TIAGIYB</title>
+    <link rel="shortcut icon" href="TemplateData/favicon.ico">
+    <link rel="stylesheet" href="TemplateData/style.css">
+  </head>
+  <body>
+    <div id="unity-container" class="unity-desktop">
+      <canvas id="unity-canvas" width=1536 height=2048></canvas>
+      <div id="unity-loading-bar">
+        <div id="unity-logo"></div>
+        <div id="unity-progress-bar-empty">
+          <div id="unity-progress-bar-full"></div>
+        </div>
+      </div>
+      <div id="unity-warning"> </div>
+      <div id="unity-footer">
+        <div id="unity-webgl-logo"></div>
+        <div id="unity-fullscreen-button"></div>
+        <div id="unity-build-title">TIAGIYB</div>
+      </div>
+    </div>
+    <script>
+      var container = document.querySelector("#unity-container");
+      var canvas = document.querySelector("#unity-canvas");
+      var loadingBar = document.querySelector("#unity-loading-bar");
+      var progressBarFull = document.querySelector("#unity-progress-bar-full");
+      var fullscreenButton = document.querySelector("#unity-fullscreen-button");
+      var warningBanner = document.querySelector("#unity-warning");
 
-<head > 
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <link rel=icon href=./files/icon.ico >
-    <title>Satvik Nagpal</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="stylesheet" href="./css/added.css" />
-    <link href="https://unpkg.com/ionicons@4.5.10-0/dist/css/ionicons.min.css" rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300i,400" rel="stylesheet">
-</head>
+      // Shows a temporary message banner/ribbon for a few seconds, or
+      // a permanent error message on top of the canvas if type=='error'.
+      // If type=='warning', a yellow highlight color is used.
+      // Modify or remove this function to customize the visually presented
+      // way that non-critical warnings and error messages are presented to the
+      // user.
+      function unityShowBanner(msg, type) {
+        function updateBannerVisibility() {
+          warningBanner.style.display = warningBanner.children.length ? 'block' : 'none';
+        }
+        var div = document.createElement('div');
+        div.innerHTML = msg;
+        warningBanner.appendChild(div);
+        if (type == 'error') div.style = 'background: red; padding: 10px;';
+        else {
+          if (type == 'warning') div.style = 'background: yellow; padding: 10px;';
+          setTimeout(function() {
+            warningBanner.removeChild(div);
+            updateBannerVisibility();
+          }, 5000);
+        }
+        updateBannerVisibility();
+      }
 
-<style>
-  h1 {text-align: center;}
-  p {text-align: center;}
-  div {text-align: center;}
-</style>
-<body style="background-color:#0070cc;">
-  <input id="hamburger" class="hamburger" type="checkbox" />
-<label for="hamburger" class="hamburger">
-    <i></i>
-  <text>
-      <close>close</close>
-      <open>About</open>
-    </text>
-  </label>
-  <nav class="primnav">
-    <ul>
-      <li>
-        <a href="https://github.com/satviknagpal01">
-          <svg class="icon"><use xlink:href="#icon-th-large"></use></svg> Github
-        </a>
-      </li>
-      <li>
-        <a href="mailto:satviknagpal2401@gmail.com">
-          <svg class="icon"><use xlink:href="#icon-mail_outline"></use></svg> Mail
-        </a>
-      </li>
-      <li>
-        <a href="https://www.linkedin.com/in/satviknagpal01/">
-          <svg class="icon"><use xlink:href="#icon-bell2"></use></svg> Linkedin
-        </a>
-      </li>
-      <li>
-        <a href="/resume/resume.pdf">
-          <svg class="icon"><use xlink:href="#icon-equalizer"></use></svg> Resume
-        </a>
-  </nav>
+      var buildUrl = "Build";
+      var loaderUrl = buildUrl + "/There Is A Game In Your Bug (WebGL).loader.js";
+      var config = {
+        dataUrl: buildUrl + "/There Is A Game In Your Bug (WebGL).data.br",
+        frameworkUrl: buildUrl + "/There Is A Game In Your Bug (WebGL).framework.js.br",
+        codeUrl: buildUrl + "/There Is A Game In Your Bug (WebGL).wasm.br",
+        streamingAssetsUrl: "StreamingAssets",
+        companyName: "GlitchAndGrind",
+        productName: "TIAGIYB",
+        productVersion: "1.0",
+        showBanner: unityShowBanner,
+      };
 
-<user id="user">
-  <section>
-    <img src="https://cdn.discordapp.com/attachments/841380540040085558/850342368979845120/as.jpg" />
-    <section>
-      <name>Satvik Nagpal</name>
-    </section>
-  </section>
-</user>
-<svg style="position: absolute; width: 0; height: 0;" width="0" height="0" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<defs>
-  <symbol id="icon-bell2" viewBox="0 0 32 32">
-<title>bell2</title>
-<path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"></path>
-</symbol>
-  <symbol id="icon-equalizer" viewBox="0 0 32 32">
-<title>equalizer</title>
-<path d="M22 0h-20v24h14l6-6v-18zm-7 23h-12v-22h18v16h-6v6zm1-5h4.586l-4.586 4.586v-4.586zm-3 1h-8v1h8v-1zm0-3h-8v1h8v-1zm6-2v-1h-14v1h14zm0-4h-4v1h4v-1zm-6.006 1h-7.991l-.003-.789c-.003-.72-.006-1.615 1.314-1.92 1.483-.341 1.236-.418 1.158-.563-1.078-1.988-.71-3.173-.395-3.703.388-.651 1.089-1.025 1.923-1.025.827 0 1.523.368 1.91 1.011.545.904.409 2.222-.379 3.713-.105.196-.195.255 1.119.559 1.355.312 1.352 1.212 1.35 1.936l-.006.781zm-6.994-1h6c-.007-.547-.07-.626-.54-.734-.855-.198-1.629-.376-1.901-.972-.142-.311-.113-.66.087-1.039.61-1.151.758-2.146.407-2.729-.276-.458-.778-.526-1.053-.526-.48 0-.857.19-1.063.537-.352.59-.201 1.58.414 2.714.204.377.236.727.095 1.039-.269.598-1.036.774-1.847.962-.525.121-.593.202-.599.748zm13-2v-1h-4v1h4zm0-4h-4v1h4v-1z"></path>
-</symbol>
-  <symbol id="icon-mail_outline" viewBox="0 0 32 32">
-<title>mail_outline</title>
-<path d="M12 12.713l-11.985-9.713h23.97l-11.985 9.713zm0 2.574l-12-9.725v15.438h24v-15.438l-12 9.725z"></path>
-</symbol>
-  <symbol id="icon-th-large" viewBox="0 0 30 32">
-<title>th-large</title>
-<path class="path1" d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"></path>
-</symbol>
-</defs>
-</svg>
-<div class="container">
-  <div class="card">
-    <h3 class="title">Card 1</h3>
-    <div class="bar">
-      <div class="emptybar"></div>
-      <div class="filledbar"></div>
-    </div>
-    <div class="circle">
-      <svg version="1.1" xmlns="http://www.w3.org/2000/svg">
-      <circle class="stroke" cx="60" cy="60" r="50"/>
-    </svg>
-    </div>
-  </div>
-  <div class="card">
-    <h3 class="title">Card 2</h3>
-    <div class="bar">
-      <div class="emptybar"></div>
-      <div class="filledbar"></div>
-    </div>
-    <div class="circle">
-      <svg version="1.1" xmlns="http://www.w3.org/2000/svg">
-      <circle class="stroke" cx="60" cy="60" r="50"/>
-    </svg>
-    </div>
-  </div>
-  <div class="card">
-    <h3 class="title">Card 3</h3>
-    <div class="bar">
-      <div class="emptybar"></div>
-      <div class="filledbar"></div>
-    </div>
-    <div class="circle">
-      <svg version="1.1" xmlns="http://www.w3.org/2000/svg">
-      <circle class="stroke" cx="60" cy="60" r="50"/>
-    </svg>
-    </div>
-  </div>
-  <div class="card">
-    <h3 class="title">Card 4</h3>
-    <div class="bar">
-      <div class="emptybar"></div>
-      <div class="filledbar"></div>
-    </div>
-    <div class="circle">
-      <svg version="1.1" xmlns="http://www.w3.org/2000/svg">
-      <circle class="stroke" cx="60" cy="60" r="50"/>
-    </svg>
-    </div>
-  </div>
-</div>
-</body>
+      // By default Unity keeps WebGL canvas render target size matched with
+      // the DOM size of the canvas element (scaled by window.devicePixelRatio)
+      // Set this to false if you want to decouple this synchronization from
+      // happening inside the engine, and you would instead like to size up
+      // the canvas DOM size and WebGL render target sizes yourself.
+      // config.matchWebGLToCanvasSize = false;
+
+      if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
+        container.className = "unity-mobile";
+        // Avoid draining fillrate performance on mobile devices,
+        // and default/override low DPI mode on mobile browsers.
+        config.devicePixelRatio = 1;
+        unityShowBanner('WebGL builds are not supported on mobile devices.');
+      } else {
+        canvas.style.width = "1536px";
+        canvas.style.height = "2048px";
+      }
+      loadingBar.style.display = "block";
+
+      var script = document.createElement("script");
+      script.src = loaderUrl;
+      script.onload = () => {
+        createUnityInstance(canvas, config, (progress) => {
+          progressBarFull.style.width = 100 * progress + "%";
+        }).then((unityInstance) => {
+          loadingBar.style.display = "none";
+          fullscreenButton.onclick = () => {
+            unityInstance.SetFullscreen(1);
+          };
+        }).catch((message) => {
+          alert(message);
+        });
+      };
+      document.body.appendChild(script);
+    </script>
+  </body>
 </html>
