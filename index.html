@@ -1,43 +1,62 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Bits and Rust</title>
   <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
   <header>
-    <h1>Bits and Rust</h1>
-    <div class="theme-switch">
-      <label class="switch">
-        <input type="checkbox" id="theme-toggle">
-        <span class="slider round"></span>
-      </label>
-      <span class="theme-label">Toggle Theme</span>
-    </div>
+    <h1 class="logo">Bits and Rust</h1>
     <nav>
-      <ul>
+      <ul class="navigation">
         <li><a href="#">Home</a></li>
         <li><a href="#">About</a></li>
-        <li><a href="#">Blog</a></li>
+        <li class="dropdown">
+          <a href="#">Blog &#9662;</a>
+          <div class="dropdown-content">
+            <a href="#">Getting Started</a>
+            <a href="#">Tutorials</a>
+            <a href="#">Projects</a>
+            <a href="#">Advanced Topics</a>
+          </div>
+        </li>
         <li><a href="#">Contact</a></li>
       </ul>
     </nav>
   </header>
 
-  <section class="hero">
-    <div class="hero-content">
-      <h2>Welcome to Bits and Rust</h2>
-      <p>Join me on an exciting journey of learning Rust and game development!</p>
-      <a href="#" class="btn">Get Started</a>
-    </div>
+  <section class="latest-posts">
+    <h2 class="section-title">Latest Blog Posts</h2>
+    <!-- Latest blog posts or content goes here -->
+  </section>
+
+  <section class="social-media">
+    <h2 class="section-title">Connect with Us</h2>
+    <!-- Social media integration goes here -->
+  </section>
+
+  <section class="projects">
+    <h2 class="section-title">Our Projects</h2>
+    <!-- Showcase of your projects goes here -->
+  </section>
+
+  <section class="resources">
+    <h2 class="section-title">Resources for Learning Rust and Game Development</h2>
+    <!-- Resources for learning Rust and game development go here -->
   </section>
 
   <footer>
-    <p>© 2023 Bits and Rust. All rights reserved.</p>
+    <div class="footer-content">
+      <p>&copy; 2023 Bits and Rust. All rights reserved.</p>
+      <p>Website created by Satvik Nagpal</p>
+    </div>
   </footer>
 
-  <script src="script.js"></script>
+  <script src="main.js"></script>
 </body>
+
 </html>

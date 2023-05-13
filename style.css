@@ -1,158 +1,164 @@
-/* style.css */
-
-/* Global Styles */
-body {
-  margin: 0;
-  padding: 0;
-  font-family: "Courier New", monospace;
-  color: #333;
-  background-color: #f7f7f7;
-  user-select: none; /* Disable text selection */
-}
-
-/* Header Styles */
-header {
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  background-color: #584a42;
-  color: #fff;
-  padding: 20px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-header h1 {
-  margin: 0;
-  font-size: 28px;
-  margin-bottom: 20px; /* Add space below the heading */
-}
-
-nav ul {
-  list-style-type: none;
-  padding: 0;
-  margin: 0;
-}
-
-nav ul li {
-  display: inline;
-  margin-right: 10px;
-}
-
-nav ul li a {
-  color: #fff;
-  text-decoration: none;
-  padding: 8px 16px;
-  background-color: #8c756b;
-  border-radius: 5px;
-  transition: background-color 0.3s ease;
-  display: inline-block;
-  margin-bottom: 10px; /* Add space below each button */
-}
-
-nav ul li a:hover {
-  background-color: #6e5c52;
-}
-
-.theme-switch {
-  display: flex;
-  align-items: center;
-}
-
-.theme-label {
-  margin-left: 10px;
-  color: #fff;
-}
-
-/* Hero Section Styles */
-.hero {
-  background-color: #fff;
-  height: calc(100vh - 100px); /* Adjust the value according to your header's height */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.hero-content {
-  text-align: center;
-  color: #333;
-}
-
-.hero-content h2 {
-  font-size: 36px;
-  margin-bottom: 20px;
-}
-
-.hero-content p {
-  font-size: 18px;
-  margin-bottom: 30px;
-}
-
-.btn {
-  display: inline-block;
-  background-color: #8c756b;
-  color: #fff;
-  padding: 10px 20px;
-  text-decoration: none;
-  border-radius: 5px;
-  transition: background-color 0.3s ease;
-}
-
-.btn:hover {
-  background-color: #6e5c52;
-}
-
-/* Footer Styles */
-footer {
-  position: sticky;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background-color: #584a42;
-  color: #fff;
-  padding: 20px;
-  text-align: center;
-}
-
-html,
-body {
-  height: 100%;
-}
-
-.wrapper {
-  min-height: 100%;
-  display: flex;
-  flex-direction: column;
-}
-
-.content {
-  flex: 1;
-}
-
-/* Responsive Styles */
-@media (max-width: 768px) {
+/* Reset default styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  /* Body styles */
+  body {
+    font-family: "Courier New", monospace;
+    color: #333;
+  }
+  
+  /* Header styles */
   header {
+    background-color: #965C4C;
+    padding: 20px;
+    text-align: center;
+  }
+  
+  .logo {
+    color: #F7F5F2;
+    font-size: 24px;
+  }
+  
+  .navigation {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+  }
+  
+  .navigation li {
+    margin: 0 10px;
+  }
+  
+  .navigation a {
+    color: #F7F5F2;
+    text-decoration: none;
+  }
+  
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #965C4C;
+    padding: 15px;
+  }
+  
+  .dropdown-content a {
+    display: block;
+    color: #F7F5F2;
+    padding: 5px;
+    text-decoration: none;
+  }
+  
+  .dropdown:hover .dropdown-content {
+    display: block;
+  }
+  
+  /* Hero styles */
+  .hero {
+    background-color: #F7F5F2;
+    padding: 50px;
+    text-align: center;
+    animation: fadeIn 1s ease-in-out;
+  }
+  
+  @keyframes fadeIn {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+  
+  /* Latest posts styles */
+  .latest-posts {
+    padding: 50px;
+  }
+  
+  /* Social media styles */
+  .social-media {
+    padding: 50px;
+  }
+  
+  /* Newsletter styles */
+  .newsletter {
+    padding: 50px;
+    text-align: center;
+  }
+  
+  .newsletter-form {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+  }
+  
+  .newsletter-form input[type="email"] {
     padding: 10px;
+    border: none;
+    border-radius: 4px;
+    margin-right: 10px;
+    width: 200px;
   }
-
-  header h1 {
-    font-size: 24px;
+  
+  .newsletter-form button[type="submit"] {
+    background-color: #965C4C;
+    color: #F7F5F2;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
   }
-
-  nav ul li {
-    margin-right: 5px;
+  
+  .newsletter-form button[type="submit"]:hover {
+    background-color: #843C32;
   }
-
-  .hero-content h2 {
-    font-size: 24px;
+  
+  /* Comments styles */
+  .comments {
+    padding: 50px;
   }
-
-  .hero-content p {
-    font-size: 16px;
+  
+  /* Projects styles */
+  .projects {
+    padding: 50px;
   }
-
-  .btn {
-    padding: 8px 16px;
+  
+  /* Resources styles */
+  .resources {
+    padding: 50px;
   }
+  
+/* Footer styles */
+footer {
+  background-color: #333;
+  padding: 20px;
+  text-align: center;
+  color: #F7F5F2;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
 }
+
+/* Rest of the CSS code */
+
+  
+  /* Animation for footer content */
+  .footer-content {
+    animation: slideUp 1s ease-in-out;
+  }
+  
+  @keyframes slideUp {
+    0% {
+      transform: translateY(100%);
+    }
+    100% {
+      transform: translateY(0);
+    }
+  }
+  
