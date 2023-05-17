@@ -1,54 +1,48 @@
-// Add JavaScript functionality here
+// Sample JavaScript file
 
-// Example code: Toggle dropdown menu
-const dropdownMenu = document.querySelector('.dropdown');
-const dropdownContent = document.querySelector('.dropdown-content');
+// Function to handle dropdown menu
+function toggleDropdown() {
+  var dropdownContent = document.querySelector(".dropdown-content");
+  dropdownContent.classList.toggle("show");
+}
 
-dropdownMenu.addEventListener('click', () => {
-  dropdownContent.classList.toggle('show');
-});
-
-// Example code: Submit newsletter subscription form
-const newsletterForm = document.querySelector('.newsletter-form');
-
-newsletterForm.addEventListener('submit', (e) => {
-  e.preventDefault();
-
-  const emailInput = document.querySelector('#email');
-  const email = emailInput.value;
-
-  // Perform validation and submit the form
-  if (isValidEmail(email)) {
-    submitNewsletterForm(email);
-    showAlert('Thank you for subscribing!');
-    newsletterForm.reset();
-  } else {
-    showAlert('Please enter a valid email address.', 'error');
+// Function to close dropdown when clicked outside
+window.onclick = function(event) {
+  if (!event.target.matches(".dropdown")) {
+    var dropdowns = document.getElementsByClassName("dropdown-content");
+    for (var i = 0; i < dropdowns.length; i++) {
+      var dropdown = dropdowns[i];
+      if (dropdown.classList.contains("show")) {
+        dropdown.classList.remove("show");
+      }
+    }
   }
+};
+
+// Sample function to fetch latest blog posts from an API
+function fetchLatestBlogPosts() {
+  // Code to fetch blog posts and update the section
+  // ...
+}
+
+// Sample function to handle newsletter subscription
+function subscribeNewsletter() {
+  var emailInput = document.getElementById("newsletter-email");
+  var email = emailInput.value;
+
+  // Code to subscribe the email to the newsletter
+  // ...
+  console.log("Subscribed to newsletter:", email);
+
+  // Clear input field after subscription
+  emailInput.value = "";
+}
+
+// Call functions or attach event listeners as needed
+fetchLatestBlogPosts();
+
+var newsletterForm = document.getElementById("newsletter-form");
+newsletterForm.addEventListener("submit", function(event) {
+  event.preventDefault();
+  subscribeNewsletter();
 });
-
-function isValidEmail(email) {
-  // Perform email validation logic
-  // Return true if valid, false otherwise
-  // Example validation: Check for presence of '@' symbol
-  return email.includes('@');
-}
-
-function submitNewsletterForm(email) {
-  // Perform form submission logic
-  // Example code: Send email to server for processing
-  console.log(`Subscribed with email: ${email}`);
-}
-
-function showAlert(message, type = 'success') {
-  const alertDiv = document.createElement('div');
-  alertDiv.classList.add('alert', type);
-  alertDiv.textContent = message;
-
-  document.body.appendChild(alertDiv);
-
-  // Remove alert after 3 seconds
-  setTimeout(() => {
-    alertDiv.remove();
-  }, 3000);
-}

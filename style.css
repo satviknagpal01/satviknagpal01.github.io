@@ -3,162 +3,151 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-  }
-  
-  /* Body styles */
-  body {
+}
+
+/* Body styles */
+body {
     font-family: "Courier New", monospace;
     color: #333;
-  }
-  
-  /* Header styles */
-  header {
+}
+
+/* Header styles */
+header {
     background-color: #965C4C;
     padding: 20px;
     text-align: center;
-  }
-  
-  .logo {
+}
+
+.logo {
     color: #F7F5F2;
     font-size: 24px;
-  }
-  
-  .navigation {
+}
+
+.navigation {
     list-style: none;
     display: flex;
     justify-content: center;
     margin-top: 20px;
-  }
-  
-  .navigation li {
+}
+
+.navigation li {
     margin: 0 10px;
-  }
-  
-  .navigation a {
+}
+
+.navigation a {
     color: #F7F5F2;
     text-decoration: none;
-  }
-  
-  .dropdown-content {
+}
+
+.dropdown {
+    position: relative;
+}
+
+.dropdown-content {
     display: none;
     position: absolute;
-    background-color: #965C4C;
-    padding: 15px;
-  }
-  
-  .dropdown-content a {
-    display: block;
-    color: #F7F5F2;
-    padding: 5px;
-    text-decoration: none;
-  }
-  
-  .dropdown:hover .dropdown-content {
-    display: block;
-  }
-  
-  /* Hero styles */
-  .hero {
+    top: 100%;
+    left: 0;
     background-color: #F7F5F2;
+    padding: 10px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+    min-width: 160px;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.dropdown-content a {
+    display: block;
+    padding: 5px;
+    color: #333;
+    text-decoration: none;
+}
+
+/* Main content styles */
+.main-content {
     padding: 50px;
-    text-align: center;
-    animation: fadeIn 1s ease-in-out;
-  }
-  
-  @keyframes fadeIn {
-    0% {
-      opacity: 0;
-    }
-    100% {
-      opacity: 1;
-    }
-  }
-  
-  /* Latest posts styles */
-  .latest-posts {
-    padding: 50px;
-  }
-  
-  /* Social media styles */
-  .social-media {
-    padding: 50px;
-  }
-  
-  /* Newsletter styles */
-  .newsletter {
-    padding: 50px;
-    text-align: center;
-  }
-  
-  .newsletter-form {
+}
+
+.container {
+    max-width: 960px;
+    margin: 0 auto;
+}
+
+.section-title {
+    margin-bottom: 20px;
+    font-size: 24px;
+}
+
+.blog-posts li {
+    margin-bottom: 20px;
+}
+
+.blog-posts a {
+    color: #333;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.blog-posts p {
+    margin-top: 5px;
+}
+
+.social-media-links {
+    list-style: none;
     display: flex;
     justify-content: center;
     margin-top: 20px;
-  }
-  
-  .newsletter-form input[type="email"] {
-    padding: 10px;
-    border: none;
-    border-radius: 4px;
-    margin-right: 10px;
-    width: 200px;
-  }
-  
-  .newsletter-form button[type="submit"] {
-    background-color: #965C4C;
-    color: #F7F5F2;
-    border: none;
-    border-radius: 4px;
-    padding: 10px 20px;
-    cursor: pointer;
-    transition: background-color 0.3s ease-in-out;
-  }
-  
-  .newsletter-form button[type="submit"]:hover {
-    background-color: #843C32;
-  }
-  
-  /* Comments styles */
-  .comments {
-    padding: 50px;
-  }
-  
-  /* Projects styles */
-  .projects {
-    padding: 50px;
-  }
-  
-  /* Resources styles */
-  .resources {
-    padding: 50px;
-  }
-  
-/* Footer styles */
-footer {
-  background-color: #333;
-  padding: 20px;
-  text-align: center;
-  color: #F7F5F2;
-  position: fixed;
-  left: 0;
-  bottom: 0;
-  width: 100%;
 }
 
-/* Rest of the CSS code */
+.social-media-links li {
+    margin: 0 10px;
+}
 
-  
-  /* Animation for footer content */
-  .footer-content {
+.social-media-links a {
+    color: #333;
+    text-decoration: none;
+}
+
+.project-list li {
+    margin-bottom: 10px;
+}
+
+.project-list a {
+    color: #333;
+    text-decoration: none;
+}
+
+.resources-list li {
+    margin-bottom: 10px;
+}
+
+.resources-list a {
+    color: #333;
+    text-decoration: none;
+}
+
+/* Footer styles */
+footer {
+    background-color: #333;
+    padding: 20px;
+    text-align: center;
+    color: #F7F5F2;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
     animation: slideUp 1s ease-in-out;
-  }
-  
-  @keyframes slideUp {
+}
+
+/* Animation for footer content */
+@keyframes slideUp {
     0% {
-      transform: translateY(100%);
+        transform: translateY(100%);
     }
     100% {
-      transform: translateY(0);
+        transform: translateY(0);
     }
-  }
-  
+}
