@@ -1,91 +1,166 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Bits and Rust - Blog</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Satvik Nagpal — Retro Portfolio</title>
+
+  <!-- Pixel fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="./src/css/style.css">
 </head>
+<body class="bg-deep-navy">
 
-<body>
-  <header>
-    <h1 class="logo">Bits and Rust</h1>
-    <nav>
-      <ul class="navigation">
-        <li><a href="#">Home</a></li>
-        <li><a href="#">About</a></li>
-        <li class="dropdown">
-          <a href="#">Blog &#9662;</a>
-          <div class="dropdown-content">
-            <a href="#">Getting Started</a>
-            <a href="#">Tutorials</a>
-            <a href="#">Projects</a>
-            <a href="#">Advanced Topics</a>
+  <!-- Intro / Press Start (kept minimal) -->
+  <div id="intro" class="intro-screen" aria-hidden="false">
+    <div class="intro-inner" role="dialog" aria-labelledby="intro-title">
+      <h1 id="intro-title" class="game-title">SATVIK NAGPAL</h1>
+      <p class="subtitle">GAME DEVELOPER</p>
+
+      <button id="pressStart" class="press-start" aria-label="Press Start">PRESS START <span class="caret">▌</span></button>
+      <p class="hint">Press Enter or click to begin</p>
+    </div>
+  </div>
+
+  <!-- App root (single page sections live here) -->
+  <div id="app" class="app-root" aria-live="polite" style="display:none;">
+    <header class="navbar" role="navigation" aria-label="Main navigation">
+      <div class="nav-inner">
+        <div class="logo">SATVIK<span class="accent">.</span></div>
+        <nav>
+          <ul class="nav-links">
+            <li><a class="nav-link" href="#home">HOME</a></li>
+            <li><a class="nav-link" href="#about">ABOUT</a></li>
+            <li><a class="nav-link" href="#experience">EXPERIENCE</a></li>
+            <li><a class="nav-link" href="#projects">PROJECTS</a></li>
+            <li><a class="nav-link" href="#skills">SKILLS</a></li>
+            <li><a class="nav-link" href="#contact">CONTACT</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <!-- HOME -->
+    <main>
+      <section id="home" class="section hero">
+        <div class="panel">
+          <h2 class="title">Game Developer</h2>
+          <p class="lead typewriter" data-text="I build tools, gameplay systems, and editor workflows — mainly in Unity.">I build tools, gameplay systems, and editor workflows — mainly in Unity.</p>
+          <div class="hero-actions">
+            <a class="btn" href="#projects">View Projects</a>
+            <a class="btn" href="#contact">Contact</a>
           </div>
-        </li>
-        <li><a href="#">Contact</a></li>
-      </ul>
-    </nav>
-  </header>
+        </div>
+      </section>
 
-  <section class="main-content">
-    <div class="container">
-      <h2>Welcome to Bits and Rust Blog!</h2>
+      <!-- ABOUT -->
+      <section id="about" class="section panel fade-in">
+        <h2 class="section-title">About</h2>
+        <div class="about-grid">
+          <div class="pixel-portrait">☺</div>
+          <div>
+            <p class="dialogue typewriter" data-text="Hi — I'm Satvik. I focus on performance and player feel.">Hi — I'm Satvik. I focus on performance and player feel.</p>
+            <ul class="achievements">
+              <li>Built editor pipelines to speed content production</li>
+              <li>Created Unity tools used across teams</li>
+              <li>Optimized mobile game performance & memory</li>
+            </ul>
+          </div>
+        </div>
+      </section>
 
-      <p>At Bits and Rust, we bring you insightful articles and tutorials on Rust programming language and game development. Whether you're a beginner or an experienced programmer, our blog has something for everyone.</p>
+      <!-- EXPERIENCE -->
+      <section id="experience" class="section panel fade-in">
+        <h2 class="section-title">Experience</h2>
+        <div class="exp-list">
+          <article class="exp">
+            <h3>Appsoleut Games</h3>
+            <p>Unity Developer — Dec 2023 – Present</p>
+            <!-- <p>Gameplay systems, editor tools, performance tuning.</p> -->
+          </article>
 
-      <h3>Latest Blog Posts</h3>
-      <ul class="blog-posts">
-        <li>
-          <a href="#">Blog Post Title 1</a>
-          <p>Summary of the blog post goes here.</p>
-        </li>
-        <li>
-          <a href="#">Blog Post Title 2</a>
-          <p>Summary of the blog post goes here.</p>
-        </li>
-        <li>
-          <a href="#">Blog Post Title 3</a>
-          <p>Summary of the blog post goes here.</p>
-        </li>
-      </ul>
+          <article class="exp">
+            <h3>Tooliqa</h3>
+            <p>Software Engineer — Jan–Dec 2023</p>
+            <!-- <p>CAD/visualization and computational geometry tools.</p> -->
+          </article>
+        </div>
+      </section>
 
-      <h3>Connect with Us</h3>
-      <p>Stay updated with the latest news, tutorials, and projects by following us on social media:</p>
-      <ul class="social-media-links">
-        <li><a href="#">Twitter</a></li>
-        <li><a href="#">Facebook</a></li>
-        <li><a href="#">Instagram</a></li>
-      </ul>
+      <!-- PROJECTS -->
+<!--       <section id="projects" class="section panel fade-in">
+        <h2 class="section-title">Projects</h2>
+        <div class="project-grid">
+          <article class="project-card" tabindex="0" data-title="Car Tuning Tool" data-desc="Unity Editor tool: manage car XP, tuning levels & CSV data automation.">
+            <div class="thumb">CT</div>
+            <h3>Car Tuning Tool</h3>
+            <p class="muted">Editor tools & CSV automation</p>
+          </article>
 
-      <h3>Our Projects</h3>
-      <p>Explore our showcased projects that demonstrate the power of Rust programming language in game development:</p>
-      <ul class="project-list">
-        <li><a href="#">Project 1</a></li>
-        <li><a href="#">Project 2</a></li>
-        <li><a href="#">Project 3</a></li>
-      </ul>
+          <article class="project-card" tabindex="0" data-title="VR Medical Visualization" data-desc="Interactive Unity XR anatomy visualizer for training.">
+            <div class="thumb">VR</div>
+            <h3>VR Medical Viz</h3>
+            <p class="muted">Unity XR visualization</p>
+          </article>
 
-      <h3>Resources for Learning Rust and Game Development</h3>
-      <p>Take your Rust and game development skills to the next level with our recommended learning resources:</p>
-      <ul class="resources-list">
-        <li><a href="#">Rust Documentation</a></li>
-        <li><a href="#">Game Development Tutorials</a></li>
-        <li><a href="#">Rust Books</a></li>
-      </ul>
+          <article class="project-card" tabindex="0" data-title="CAD Visualizer" data-desc="Real-time room layout & decor visualizer.">
+            <div class="thumb">CAD</div>
+            <h3>CAD Visualizer</h3>
+            <p class="muted">Realtime layout tool</p>
+          </article>
+        </div>
+        <p class="hint muted">Click a card or press Enter when focused to open details.</p>
+      </section>-->
+
+      <!-- SKILLS -->
+      <section id="skills" class="section panel fade-in">
+        <h2 class="section-title">Skills — Inventory</h2>
+        <div class="inventory-grid">
+          <div class="inventory-category">
+            <h4>Engine</h4>
+            <ul><li>Unity (Editor Tools)</li><li>Gameplay Systems</li></ul>
+          </div>
+          <div class="inventory-category">
+            <h4>Languages</h4>
+            <ul><li>C#</li><li>C++</li><li>JS</li></ul>
+          </div>
+          <div class="inventory-category">
+            <h4>Tools</h4>
+            <ul><li>Git</li><li>Blender (basic)</li></ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- CONTACT -->
+      <section id="contact" class="section panel fade-in">
+        <h2 class="section-title">Contact</h2>
+        <p class="lead">Save your progress — drop a message.</p>
+        <form id="contactForm" class="pixel-form" novalidate>
+          <label>NAME <input name="name" required></label>
+          <label>EMAIL <input name="email" type="email" required></label>
+          <label>MESSAGE <textarea name="message" rows="4" required></textarea></label>
+          <div class="form-actions">
+            <button type="submit" class="btn">Send</button>
+          </div>
+        </form>
+      </section>
+
+      <footer class="footer">
+        <small>© 2025 Satvik Nagpal — Built with pixel love</small>
+      </footer>
+    </main>
+  </div>
+
+  <!-- Modal (dynamically toggled) -->
+  <div id="projectModal" class="modal" aria-hidden="true">
+    <div class="modal-panel" role="dialog" aria-modal="true">
+      <button id="modalClose" class="modal-close" aria-label="Close">✖</button>
+      <h3 id="modalTitle"></h3>
+      <p id="modalDesc"></p>
     </div>
-  </section>
+  </div>
 
-  <footer>
-    <div class="footer-content">
-      <p>&copy; 2023 Bits and Rust
-. All rights reserved.</p>
-      <p>Website created by Satvik Nagpal</p>
-    </div>
-  </footer>
-
-  <script src="main.js"></script>
+  <script src="./src/js/main.js"></script>
 </body>
-
 </html>

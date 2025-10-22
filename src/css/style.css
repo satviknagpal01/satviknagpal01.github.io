@@ -1,0 +1,175 @@
+/* style.css — Retro single-page theme (solid deep navy) */
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap');
+
+:root{
+  --bg:#0A0E2A;
+  --accent:#F8D210;
+  --accent2:#00E0FF;
+  --muted:#9aa0b4;
+  --panel:#0f1630;
+  --border:#22294b;
+  --container-w:min(1100px,92%);
+  --ui-font:"VT323", monospace;
+  --title-font:"Press Start 2P", monospace;
+}
+
+/* Reset */
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{
+  font-family:var(--ui-font);
+  background:var(--bg);
+  color:#e6eef6;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  line-height:1.45;
+  scroll-behavior:smooth;
+}
+
+/* Intro */
+.intro-screen{
+  position:fixed;inset:0;display:flex;align-items:center;justify-content:center;z-index:1400;background:var(--bg);text-align:center;padding:40px;
+}
+.intro-inner{border:2px solid var(--border);padding:36px 48px;background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent)}
+.game-title{font-family:var(--title-font);color:var(--accent);font-size:22px;margin-bottom:6px}
+.subtitle{font-family:var(--ui-font);color:var(--muted);margin-bottom:16px}
+.press-start{display:inline-flex;align-items:center;gap:10px;cursor:pointer;border:2px solid var(--border);padding:10px 18px;background:#071033;color:#fff}
+.press-start .caret{color:var(--accent2);animation:blink 1s steps(2) infinite}
+.hint{color:var(--muted);margin-top:10px;font-size:12px}
+
+/* App root */
+.app-root{display:block}
+
+/* Navbar */
+.navbar{position:fixed;left:0;top:0;width:100%;z-index:1300;background:transparent;border-bottom:2px solid var(--border)}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;padding:10px 4vw;gap:12px}
+.logo{font-family:var(--title-font);color:var(--accent);padding:6px 10px;border:2px solid var(--border);display:inline-block;font-size:12px}
+.nav-links{display:flex;gap:8px;list-style:none}
+.nav-link{color:var(--muted);text-decoration:none;padding:6px 8px;border:2px solid transparent;font-family:var(--ui-font);font-size:12px}
+.nav-link:hover,.nav-link.active{color:var(--accent);border-color:var(--accent);box-shadow:0 4px 0 rgba(0,0,0,0.35)}
+
+/* Sections & panels */
+.section{padding:72px 10vw;max-width:var(--container-w);margin:0 auto 28px;opacity:0;transform:translateY(10px);transition:opacity .45s ease,transform .45s ease}
+.section.visible{opacity:1;transform:none}
+.panel{border:2px solid var(--border);background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(0,0,0,0.02));padding:28px}
+.section-title{font-family:var(--title-font);color:var(--accent);font-size:18px;margin-bottom:12px}
+.lead{color:var(--muted)}
+
+/* Hero */
+.hero{min-height:72vh;display:flex;align-items:center;justify-content:center;text-align:center}
+.title{font-family:var(--title-font);font-size:20px;color:var(--accent);margin-bottom:8px}
+.hero-actions{display:flex;gap:12px;justify-content:center;margin-top:14px}
+.btn{display:inline-block;padding:8px 14px;border:2px solid var(--border);background:transparent;color:var(--accent);font-family:var(--title-font);font-size:12px;text-decoration:none}
+.btn:hover{box-shadow:0 6px 0 rgba(0,0,0,0.45);text-shadow:0 0 8px var(--accent2);border-color:var(--accent2)}
+
+/* About */
+.about-grid{display:grid;grid-template-columns:120px 1fr;gap:18px;align-items:center}
+.pixel-portrait{width:120px;height:120px;border:2px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:48px;background:#08102a}
+
+/* Projects */
+.project-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin-top:12px}
+.project-card{border:2px solid var(--border);padding:12px;background:#071233;cursor:pointer;display:flex;flex-direction:column;gap:8px;outline:none}
+.project-card:focus{box-shadow:0 0 0 3px rgba(0,224,255,0.08)}
+.thumb{width:56px;height:56px;border:2px solid var(--border);display:flex;align-items:center;justify-content:center;font-family:var(--title-font);font-size:14px;color:var(--accent);background:#071033}
+.muted{color:var(--muted);font-size:13px}
+
+/* Inventory */
+.inventory-grid{display:flex;gap:12px;flex-wrap:wrap;margin-top:12px}
+.inventory-category{border:2px solid var(--border);padding:10px;width:210px}
+.inventory-category h4{font-family:var(--title-font);font-size:12px;color:var(--accent)}
+
+/* Contact form */
+.pixel-form{display:grid;gap:8px;margin-top:12px}
+.pixel-form label{display:flex;flex-direction:column;gap:6px;font-size:13px}
+.pixel-form input,.pixel-form textarea{border:2px solid var(--border);background:transparent;padding:8px;color:#fff;font-family:var(--ui-font)}
+.form-actions{display:flex;gap:8px}
+
+/* Modal */
+.modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,0.6);z-index:1600}
+.modal[aria-hidden="false"]{display:flex}
+.modal-panel{width:min(720px,92%);border:2px solid var(--border);background:var(--panel);padding:18px;position:relative}
+.modal-close{position:absolute;right:8px;top:8px;border:2px solid var(--border);background:transparent;color:var(--muted);cursor:pointer}
+
+/* Footer */
+.footer{padding:18px;text-align:center;color:var(--muted);margin-top:20px}
+
+/* Small responsive */
+@media (max-width:800px){
+  .nav-inner{padding:10px 6vw}
+  .about-grid{grid-template-columns:1fr}
+  .pixel-portrait{width:100px;height:100px}
+  .section{padding:40px 6vw}
+}
+
+/* Utility animations */
+@keyframes blink{50%{opacity:0}}
+.caret{animation:blink 1s steps(2) infinite}
+
+
+/* ===== Retro Sound Test Styles ===== */
+.sound-test {
+  background-color: #0A0E2A;
+  color: #f8f8f8;
+  font-family: 'VT323', monospace;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.test-container {
+  background: rgba(255,255,255,0.05);
+  border: 2px solid #00E0FF;
+  padding: 30px 40px;
+  border-radius: 12px;
+  box-shadow: 0 0 16px #00E0FF44;
+  text-align: center;
+  width: 350px;
+}
+
+.test-container h1 {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 12px;
+  margin-bottom: 20px;
+  color: #00E0FF;
+}
+
+.test-controls label {
+  display: block;
+  text-align: left;
+  font-size: 14px;
+  margin: 12px 0;
+}
+
+.test-controls input[type=range] {
+  width: 100%;
+  accent-color: #F8D210;
+}
+
+.pixel-btn {
+  margin-top: 20px;
+  background: #F8D210;
+  border: none;
+  padding: 10px 20px;
+  font-family: 'Press Start 2P', cursive;
+  font-size: 10px;
+  cursor: pointer;
+  color: #0A0E2A;
+  text-transform: uppercase;
+  transition: transform 0.1s ease, background 0.2s;
+}
+
+.pixel-btn:hover {
+  background: #00E0FF;
+  transform: scale(1.05);
+}
+/* ===== Retro Sound Visualizer ===== */
+#visualizer {
+  width: 100%;
+  height: 120px;
+  border: 2px solid #00E0FF;
+  background: #0A0E2A;
+  margin-bottom: 16px;
+  box-shadow: 0 0 12px #00E0FF55;
+  image-rendering: pixelated;
+}
