@@ -1,0 +1,20 @@
+[
+  {
+    "title": "Car Tuning Tool",
+    "short": "Editor tools & CSV automation",
+    "desc": "Unity Editor tool: manage car XP, tuning levels & CSV data automation.",
+    "thumb": "CT"
+  },
+  {
+    "title": "VR Medical Visualization",
+    "short": "Unity XR anatomy visualizer",
+    "desc": "Interactive Unity XR visualization for medical training and exploration.",
+    "thumb": "VR"
+  },
+  {
+    "title": "CAD Visualizer",
+    "short": "Realtime layout & decor preview",
+    "desc": "Room layout & decor visualizer with real-time preview and placement tools.",
+    "thumb": "CAD"
+  }
+]

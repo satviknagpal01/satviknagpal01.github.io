@@ -5,26 +5,23 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Satvik Nagpal — Retro Portfolio</title>
 
-  <!-- Pixel fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
-
-  <link rel="stylesheet" href="./src/css/style.css">
+  <link rel="stylesheet" href="/src/css/style.css" />
 </head>
 <body class="bg-deep-navy">
 
-  <!-- Intro / Press Start (kept minimal) -->
+  <!-- Intro / Press Start -->
   <div id="intro" class="intro-screen" aria-hidden="false">
     <div class="intro-inner" role="dialog" aria-labelledby="intro-title">
       <h1 id="intro-title" class="game-title">SATVIK NAGPAL</h1>
-      <p class="subtitle">GAME DEVELOPER</p>
-
+      <p class="subtitle">GAME DEVELOPER — TOOLS & EDITOR MAGIC</p>
       <button id="pressStart" class="press-start" aria-label="Press Start">PRESS START <span class="caret">▌</span></button>
       <p class="hint">Press Enter or click to begin</p>
     </div>
   </div>
 
-  <!-- App root (single page sections live here) -->
-  <div id="app" class="app-root" aria-live="polite" style="display:none;">
+  <!-- App -->
+  <div id="app" style="display:none;">
     <header class="navbar" role="navigation" aria-label="Main navigation">
       <div class="nav-inner">
         <div class="logo">SATVIK<span class="accent">.</span></div>
@@ -34,6 +31,7 @@
             <li><a class="nav-link" href="#about">ABOUT</a></li>
             <li><a class="nav-link" href="#experience">EXPERIENCE</a></li>
             <li><a class="nav-link" href="#projects">PROJECTS</a></li>
+            <li><a class="nav-link" href="#unity">DEMOS</a></li>
             <li><a class="nav-link" href="#skills">SKILLS</a></li>
             <li><a class="nav-link" href="#contact">CONTACT</a></li>
           </ul>
@@ -41,99 +39,51 @@
       </div>
     </header>
 
-    <!-- HOME -->
-    <main>
+    <main id="content">
       <section id="home" class="section hero">
         <div class="panel">
-          <h2 class="title">Game Developer</h2>
-          <p class="lead typewriter" data-text="I build tools, gameplay systems, and editor workflows — mainly in Unity.">I build tools, gameplay systems, and editor workflows — mainly in Unity.</p>
+          <h2 class="title glow">Game Developer & Graphics Programmer</h2>
+          <p class="lead typewriter" data-text="I build tools, gameplay systems, and editor workflows — mainly in Unity."></p>
           <div class="hero-actions">
-            <a class="btn" href="#projects">View Projects</a>
-            <a class="btn" href="#contact">Contact</a>
+            <button class="btn" data-scroll="#projects">View Projects</button>
+            <button class="btn" data-scroll="#contact">Contact</button>
           </div>
         </div>
       </section>
 
-      <!-- ABOUT -->
-      <section id="about" class="section panel fade-in">
+      <section id="about" class="section panel">
         <h2 class="section-title">About</h2>
-        <div class="about-grid">
-          <div class="pixel-portrait">☺</div>
-          <div>
-            <p class="dialogue typewriter" data-text="Hi — I'm Satvik. I focus on performance and player feel.">Hi — I'm Satvik. I focus on performance and player feel.</p>
-            <ul class="achievements">
-              <li>Built editor pipelines to speed content production</li>
-              <li>Created Unity tools used across teams</li>
-              <li>Optimized mobile game performance & memory</li>
-            </ul>
-          </div>
-        </div>
+        <div id="aboutContent" class="about-grid"></div>
       </section>
 
-      <!-- EXPERIENCE -->
-      <section id="experience" class="section panel fade-in">
+      <section id="experience" class="section panel">
         <h2 class="section-title">Experience</h2>
-        <div class="exp-list">
-          <article class="exp">
-            <h3>Appsoleut Games</h3>
-            <p>Unity Developer — Dec 2023 – Present</p>
-            <!-- <p>Gameplay systems, editor tools, performance tuning.</p> -->
-          </article>
-
-          <article class="exp">
-            <h3>Tooliqa</h3>
-            <p>Software Engineer — Jan–Dec 2023</p>
-            <!-- <p>CAD/visualization and computational geometry tools.</p> -->
-          </article>
-        </div>
+        <div id="experienceList" class="exp-list"></div>
       </section>
 
-      <!-- PROJECTS -->
-<!--       <section id="projects" class="section panel fade-in">
+      <section id="projects" class="section panel">
         <h2 class="section-title">Projects</h2>
-        <div class="project-grid">
-          <article class="project-card" tabindex="0" data-title="Car Tuning Tool" data-desc="Unity Editor tool: manage car XP, tuning levels & CSV data automation.">
-            <div class="thumb">CT</div>
-            <h3>Car Tuning Tool</h3>
-            <p class="muted">Editor tools & CSV automation</p>
-          </article>
+        <div id="projectsGrid" class="project-grid" aria-live="polite"></div>
+      </section>
 
-          <article class="project-card" tabindex="0" data-title="VR Medical Visualization" data-desc="Interactive Unity XR anatomy visualizer for training.">
-            <div class="thumb">VR</div>
-            <h3>VR Medical Viz</h3>
-            <p class="muted">Unity XR visualization</p>
-          </article>
-
-          <article class="project-card" tabindex="0" data-title="CAD Visualizer" data-desc="Real-time room layout & decor visualizer.">
-            <div class="thumb">CAD</div>
-            <h3>CAD Visualizer</h3>
-            <p class="muted">Realtime layout tool</p>
-          </article>
-        </div>
-        <p class="hint muted">Click a card or press Enter when focused to open details.</p>
-      </section>-->
-
-      <!-- SKILLS -->
-      <section id="skills" class="section panel fade-in">
-        <h2 class="section-title">Skills — Inventory</h2>
-        <div class="inventory-grid">
-          <div class="inventory-category">
-            <h4>Engine</h4>
-            <ul><li>Unity (Editor Tools)</li><li>Gameplay Systems</li></ul>
+      <section id="unity" class="section panel">
+        <h2 class="section-title">Playable Demos</h2>
+        <div id="unityWrap">
+          <p class="muted">Unity demos (deferred load). Click to load demo.</p>
+          <div class="unity-controls">
+            <button id="loadUnity" class="btn small">Load Demo (iframe)</button>
+            <button id="unloadUnity" class="btn small muted">Unload</button>
           </div>
-          <div class="inventory-category">
-            <h4>Languages</h4>
-            <ul><li>C#</li><li>C++</li><li>JS</li></ul>
-          </div>
-          <div class="inventory-category">
-            <h4>Tools</h4>
-            <ul><li>Git</li><li>Blender (basic)</li></ul>
-          </div>
+          <div id="unityFrameWrap" class="unity-frame-wrap" aria-live="polite"></div>
         </div>
       </section>
 
-      <!-- CONTACT -->
-      <section id="contact" class="section panel fade-in">
+      <section id="skills" class="section panel">
+        <h2 class="section-title">Skills — Inventory</h2>
+        <div id="skillsGrid" class="inventory-grid"></div>
+      </section>
+
+      <section id="contact" class="section panel">
         <h2 class="section-title">Contact</h2>
         <p class="lead">Save your progress — drop a message.</p>
         <form id="contactForm" class="pixel-form" novalidate>
@@ -152,15 +102,22 @@
     </main>
   </div>
 
-  <!-- Modal (dynamically toggled) -->
+  <!-- Modal -->
   <div id="projectModal" class="modal" aria-hidden="true">
     <div class="modal-panel" role="dialog" aria-modal="true">
       <button id="modalClose" class="modal-close" aria-label="Close">✖</button>
       <h3 id="modalTitle"></h3>
       <p id="modalDesc"></p>
+      <div id="modalLinks"></div>
     </div>
   </div>
 
-  <script src="./src/js/main.js"></script>
+  <!-- Prefs -->
+  <div id="prefsControl" class="prefs-control" title="Sound & preferences">
+    <button id="sfxToggle" class="prefs-btn" aria-pressed="false">SFX</button>
+    <input id="sfxVolume" class="prefs-volume" type="range" min="0" max="1" step="0.01" value="0.8" />
+  </div>
+
+  <script type="module" src="/src/js/main.js"></script>
 </body>
 </html>
