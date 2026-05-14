@@ -1,0 +1,59 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import WriteupCard from '../../components/WriteupCard.astro';
+import allWriteups from '../../data/writeups.json';
+
+const writeups = allWriteups
+  .filter(w => !w.draft)
+  .sort((a, b) => new Date(b.pubDate).getTime() - new Date(a.pubDate).getTime());
+---
+
+<BaseLayout
+  title="Writeups"
+  description="Technical articles on graphics programming, optimization, and engine systems."
+>
+  <div class="page-wrap">
+    <header class="page-header">
+      <h1 class="page-title">// Writeups</h1>
+      <p class="page-desc">
+        Optimization case studies, rendering experiments, and graphics programming deep-dives.
+      </p>
+    </header>
+
+    <div class="writeups-list">
+      {writeups.map(w => <WriteupCard writeup={w} />)}
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .page-wrap {
+    max-width: var(--container);
+    margin: 0 auto;
+    padding: calc(var(--nav-h) + var(--s-8)) var(--s-5) var(--s-8);
+  }
+
+  .page-header {
+    margin-bottom: var(--s-7);
+    border-bottom: 2px solid var(--border);
+    padding-bottom: var(--s-5);
+  }
+
+  .page-title {
+    font-family: var(--font-display);
+    font-size: var(--text-section);
+    color: var(--cyan);
+    margin-bottom: var(--s-3);
+  }
+
+  .page-desc {
+    color: var(--muted);
+    font-size: var(--text-body);
+  }
+
+  .writeups-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-4);
+  }
+</style>

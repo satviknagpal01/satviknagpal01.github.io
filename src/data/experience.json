@@ -1,0 +1,48 @@
+[
+  {
+    "company":  "Appsoleut Games",
+    "role":     "Game Developer",
+    "location": "Gurgaon, India",
+    "start":    "Dec 2023",
+    "end":      "Present",
+    "bullets": [
+      "Shipped Car Driving Multiplayer — a live Unity multiplayer simulation game on Android and iOS — and continue delivering features and optimisations to an active player base.",
+      "Drove rendering optimisation (mesh batching, draw call reduction, LOD tuning) to hold frame budget on mid-range Android devices — the primary hardware constraint for the target market.",
+      "Engineered a custom Unity Editor tooling suite for the design team; reduced content iteration time by 70% and eliminated the recurring data-entry errors that previously blocked sprint completion.",
+      "Designed and shipped core gameplay systems — car selection, career progression, and session management — built for live updates and running in production."
+    ]
+  },
+  {
+    "company":  "Tooliqa",
+    "role":     "Junior Game Developer",
+    "location": "Gurgaon, India",
+    "start":    "Jan 2023",
+    "end":      "Dec 2023",
+    "bullets": [
+      "Engineered runtime mesh editing operations — extrude, flip, and parametric shape controls — directly manipulating Unity mesh data for Twinn Create, a commercial design product.",
+      "Built the real-time material and furniture preview system powering Twinn Vision's interior design visualiser, enabling instant visual feedback with no bake step.",
+      "Developed debugging tooling for the Computer Vision team to surface and fix scene data misalignment — replacing slow manual inspection with an automated, visual workflow."
+    ]
+  },
+  {
+    "company":  "AiSolve Limited",
+    "role":     "Intern",
+    "location": "Bangalore, India",
+    "start":    "Jun 2022",
+    "end":      "Aug 2022",
+    "bullets": [
+      "Cross-ported a VR anatomy quiz from HTC Vive to Oculus Quest using Unity XR Toolkit — navigating SDK and input-mapping differences to achieve stable standalone performance on Quest hardware.",
+      "Expanded an AR/MR heart anatomy visualisation with interactive annotation layers and instrumented analytics, improving both educational depth and usage insight for the client."
+    ]
+  },
+  {
+    "company":  "Engineers India Limited",
+    "role":     "Intern",
+    "location": "Gurgaon, India",
+    "start":    "Jul 2021",
+    "end":      "Jul 2021",
+    "bullets": [
+      "Developed a web-based internal training records system in ASP.NET and C# — delivered and in live use within a one-month internship window."
+    ]
+  }
+]

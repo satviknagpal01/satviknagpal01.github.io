@@ -1,0 +1,135 @@
+[
+  {
+    "slug": "there-is-a-game-in-your-bug",
+    "title": "There is a Game in Your Bug",
+    "order": 1,
+    "featured": true,
+    "draft": false,
+    "stack": ["C#", "Unity"],
+    "problem": "Top-5 finish in Survive Game Jam 2021. A retro puzzle game where the rules of the game shift dynamically mid-play — designed, built, and shipped within a 48-hour window with a team of 4.",
+    "achievements": [
+      "Top 5 finish in Survive Game Jam 2021 out of hundreds of entries",
+      "Built and shipped in 48 hours with a team of 4",
+      "Dynamic rule-shifting mechanic designed and implemented entirely within the jam window"
+    ],
+    "metrics": null,
+    "repo": null,
+    "liveDemo": "https://thefrozenknight.itch.io/there-is-a-game-in-your-bug",
+    "body": "<p>A retro puzzle game where the rules of the game change dynamically as you play. Built in 48 hours for Survive Game Jam 2021, where it placed in the Top 5.</p><p>The core mechanic — rules shifting mid-play — required designing systems that could be safely swapped at runtime without breaking game state. The challenge was keeping the player informed of what changed without interrupting flow.</p>"
+  },
+  {
+    "slug": "car-driving-multiplayer",
+    "title": "Car Driving Multiplayer",
+    "order": 2,
+    "featured": false,
+    "draft": false,
+    "stack": ["C#", "Unity", "Android", "iOS"],
+    "problem": "A live multiplayer mobile simulation game shipped on Android and iOS. I own the rendering pipeline, core gameplay architecture, and the internal tooling that keeps the design team's pipeline efficient — maintaining a production codebase serving real players.",
+    "achievements": [
+      "Drove rendering optimisation — mesh batching, draw call reduction, LOD tuning — to hold frame rate on mid-range Android devices, the primary hardware constraint",
+      "Designed and shipped core gameplay systems (car selection, career progression, session management) running live in production",
+      "Engineered a custom Unity Editor tooling suite that cut designer iteration time by 70% and eliminated the recurring data-entry errors that previously blocked sprint completion",
+      "Kept memory footprint in check across Android and iOS using asset streaming and aggressive object pooling, maintaining stable performance on constrained hardware"
+    ],
+    "metrics": null,
+    "repo": null,
+    "liveDemo": null,
+    "body": "<p>Car Driving Multiplayer is a Unity-based mobile simulation game developed at Appsoleut Games, where I have been a core contributor since December 2023. The game is live on Android and iOS.</p><h2>Performance Work</h2><p>Mobile targets demand tight frame budgets on hardware ranging from flagship to mid-range. My focus was on the rendering pipeline: static mesh batching to cut draw calls, LOD configuration for vehicles and environment, and memory profiling to catch allocation spikes during gameplay transitions.</p><h2>Gameplay Systems</h2><p>I built and iterated on several core systems — car selection and unlock progression, multiplayer session management, and cross-device feature parity. Each system was designed for maintainability so future designers and engineers could extend it without breaking existing behaviour.</p><h2>Editor Tooling</h2><p>Designers needed to configure car stats, XP curves, and tuning parameters across dozens of vehicles. I built a custom Unity Editor window that made batch edits safe and reviewable, cutting a 3-hour manual process to under 30 minutes per sprint.</p>"
+  },
+  {
+    "slug": "twinn-create",
+    "title": "Twinn Create — Runtime Mesh Editor",
+    "order": 3,
+    "featured": false,
+    "draft": false,
+    "stack": ["C#", "Unity", "Shader Graph", "UI Toolkit"],
+    "problem": "Commercial Unity product requiring real-time geometry manipulation and a live interior visualiser. I built the core mesh editing system and the material preview pipeline — two systems that needed to be fast, non-destructive, and reliable in a production design tool.",
+    "achievements": [
+      "Engineered runtime mesh editing — extrude, flip, and parametric controls — by directly manipulating Unity mesh data structures, enabling non-destructive geometry editing in a live product",
+      "Built the real-time material and furniture preview system powering Twinn Vision's interior design experience — instant feedback with no bake step",
+      "Developed internal debugging tooling for the Computer Vision team to detect and visualise scene data misalignment, replacing a manual inspection process",
+      "Authored custom surface shaders in Shader Graph and built responsive in-app toolbars using UI Toolkit, maintaining visual quality across target screen resolutions"
+    ],
+    "metrics": null,
+    "repo": null,
+    "liveDemo": null,
+    "body": "<p>At Tooliqa I was a core engineer on two commercial Unity products: Twinn Create (a design and modelling tool) and Twinn Vision (a real-time interior visualiser).</p><h2>Runtime Mesh Editing</h2><p>Twinn Create required users to manipulate 3D geometry at runtime — extruding faces, flipping normals, and adjusting parametric dimensions. I implemented these operations by directly reading and writing Unity Mesh data structures, handling winding order, UV re-projection, and normal recalculation after each edit.</p><h2>Twinn Vision — Material &amp; Furniture Preview</h2><p>The visualiser needed real-time material swaps (texture, colour, roughness) and furniture model swapping within a pre-built scene. I built the preview pipeline using Shader Graph for the material previews and a scene management layer for asset loading and placement.</p><h2>CV Debugging Tools</h2><p>The Computer Vision team worked with spatial data that frequently had alignment errors when imported into Unity scenes. I built a set of Unity Editor tools that visualised misalignment, let engineers mark and correct bad data, and validated the fixed output — reducing their QA iteration cycle significantly.</p>"
+  },
+  {
+    "slug": "car-tuning-tool",
+    "title": "Car Tuning Tool",
+    "order": 4,
+    "featured": false,
+    "draft": false,
+    "stack": ["C#", "Unity Editor", "ScriptableObjects", "CSV"],
+    "problem": "The design team was spending hours each sprint manually editing car stats and balance data across dozens of ScriptableObjects — fragile, slow, and impossible to audit. I designed and built a Unity Editor tooling suite to automate the entire pipeline.",
+    "achievements": [
+      "Custom Unity Editor window with batch-edit workflows for all car balance parameters",
+      "CSV ↔ ScriptableObject sync pipeline with validation and rollback",
+      "Property drawers and inspector drawers for non-technical designers",
+      "Reduced content iteration time by 70% — design changes that took 3 hours now take under 30 minutes"
+    ],
+    "metrics": [
+      "70% reduction in content pipeline time",
+      "Zero data-entry errors post-launch (previously ~5 per sprint)"
+    ],
+    "repo": null,
+    "liveDemo": null,
+    "body": "<p>At Appsoleut Games, the car tuning system required frequent balance updates across dozens of vehicles. Each update meant manually editing ScriptableObjects in the Unity inspector — a process that took hours and regularly introduced errors.</p><h2>The Problem</h2><p>The data was split across many ScriptableObjects with deeply nested fields. Non-technical designers couldn't safely edit them directly, so every balance change required an engineer. The feedback loop was painfully slow.</p><h2>The Solution</h2><p>I built a custom Unity Editor window that loads all car data into an editable spreadsheet-style view. Designers can edit values inline, batch-apply changes across multiple cars, and preview the outcome before committing. A validation pass flags out-of-range values before any write occurs.</p><h2>CSV Pipeline</h2><p>The tool also supports CSV import and export. The design team maintains the canonical balance data in a shared Google Sheet. Importing the CSV into Unity syncs all ScriptableObjects in one click, with a diff view showing what changed. Exporting lets them share the live game data back to the sheet.</p>"
+  },
+  {
+    "slug": "rage-the-game",
+    "title": "Rage - The Game",
+    "order": 5,
+    "featured": false,
+    "draft": false,
+    "stack": ["C#", "Unity"],
+    "problem": "Top-20 finish at BYOG 2021 (Build Your Own Game). A puzzle-platformer where players navigate increasingly complex levels to reach a wormhole — designed and shipped from scratch within the 48-hour jam window.",
+    "achievements": [
+      "Top-20 finish in BYOG (Build Your Own Game) 2021",
+      "Designed and shipped a complete puzzle-platformer — level progression, physics, and win conditions — within the 48-hour jam window",
+      "Built entirely from scratch with no pre-made templates or assets"
+    ],
+    "metrics": null,
+    "repo": null,
+    "liveDemo": null,
+    "body": "<p>Rage - The Game is a puzzle-platformer built for BYOG (Build Your Own Game) 2021, where it placed in the Top 20. Players navigate each level to find and reach a wormhole, with level design that escalates in complexity as the game progresses.</p><p>The jam constraint pushed rapid prototyping — designing, building, and balancing levels within a 48-hour window required tight scope and quick iteration on feel.</p>"
+  },
+  {
+    "slug": "vr-medical-viz",
+    "title": "VR / AR Medical Visualisation",
+    "order": 6,
+    "featured": false,
+    "draft": false,
+    "stack": ["Unity XR", "C#", "Oculus SDK", "Unity AR"],
+    "problem": "XR engineering internship at AiSolve Limited. Two parallel workstreams: porting a VR anatomy quiz to a new hardware platform, and expanding an AR heart anatomy visualisation with interactive educational content.",
+    "achievements": [
+      "Successfully ported a VR anatomy quiz from HTC Vive to Oculus Quest using Unity XR Toolkit, resolving SDK-level differences and remapping platform-specific input",
+      "Profiled and optimised the ported scene to reach stable frame rate on Quest's standalone hardware — within the performance budget needed for comfortable VR",
+      "Extended the AR/MR heart anatomy experience with interactive annotation layers and educational content modules requested by the client",
+      "Integrated analytics instrumentation and coordinated delivery directly with the client — full ownership from spec to production"
+    ],
+    "metrics": null,
+    "repo": null,
+    "liveDemo": null,
+    "body": "<p>During my internship at AiSolve Limited, I worked on two XR projects for healthcare and education clients.</p><h2>VR Quiz Port (HTC Vive → Oculus Quest)</h2><p>The existing VR anatomy quiz was built for PC-tethered HTC Vive hardware. Porting to standalone Oculus Quest required adapting the input system (from SteamVR to Oculus SDK / Unity XR Toolkit), re-optimising the scene for standalone GPU constraints, and fixing controller-specific UI interaction logic. After profiling the ported build on device, I made targeted draw call and texture compression changes to reach stable performance.</p><h2>AR/MR Heart Visualisation</h2><p>The second project was an augmented reality application for medical education, visualising the human heart overlaid on the real world. I added interactive educational content layers — labels, annotations, and guided interactions — and helped integrate the analytics system that tracked user engagement with each content section.</p>"
+  },
+  {
+    "slug": "untitled-ghost-game",
+    "title": "Untitled Ghost Game",
+    "order": 7,
+    "featured": false,
+    "draft": false,
+    "stack": ["C#", "Unity"],
+    "problem": "A game jam project where players switch between human and ghost states to overcome obstacles — each form has distinct physics behaviour and interaction rules. Placed Top 5 and was invited to showcase at an industry event.",
+    "achievements": [
+      "Designed and implemented a dual-form mechanic with fully distinct physics and interaction systems per state — core to all of the game's puzzle design",
+      "Invited to showcase at an industry event as a Top 5 game",
+      "Shipped a complete, polished experience within the jam's 48-hour constraints"
+    ],
+    "metrics": null,
+    "repo": null,
+    "liveDemo": null,
+    "body": "<p>A game jam project built around a dual-form mechanic: players switch between a solid human form and an intangible ghost form to navigate obstacles. Each form interacts with the environment differently — the human obeys normal physics and can push objects; the ghost passes through certain surfaces but cannot interact with physical elements.</p><p>The game was invited to be showcased to industry leaders as a Top 5 entry.</p>"
+  }
+]

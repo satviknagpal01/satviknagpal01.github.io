@@ -1,0 +1,527 @@
+---
+import social from '../data/social.json';
+---
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Resume of Satvik Nagpal — Game Developer specialising in Unity, performance optimisation, and engine systems." />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <title>Satvik Nagpal — Resume</title>
+  <style>
+    /* ── Fonts ── */
+    @font-face {
+      font-family: "Orbitron";
+      src: url("/fonts/Orbitron-VariableFont_wght.ttf") format("truetype");
+      font-weight: 100 900;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: "IBM Plex Mono";
+      src: url("/fonts/ibm-plex-mono-400.woff2") format("woff2");
+      font-weight: 400;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: "IBM Plex Mono";
+      src: url("/fonts/ibm-plex-mono-500.woff2") format("woff2");
+      font-weight: 500;
+      font-display: swap;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    /* ── Screen chrome ── */
+    body {
+      background: #0A0E2A;
+      color: #e6eef6;
+      font-family: "IBM Plex Mono", ui-monospace, monospace;
+      font-size: 14px;
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    .screen-bar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(10,14,42,0.96);
+      border-bottom: 2px solid #22294b;
+      padding: 10px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .screen-bar-logo {
+      font-family: "Orbitron", sans-serif;
+      font-size: 11px;
+      color: #F8D210;
+      letter-spacing: 0.06em;
+      text-decoration: none;
+    }
+    .screen-bar-logo span { color: #00FFF7; }
+
+    .screen-bar-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .btn-print {
+      font-family: "Orbitron", sans-serif;
+      font-size: 10px;
+      color: #00FFF7;
+      border: 2px solid #22294b;
+      background: transparent;
+      padding: 6px 14px;
+      cursor: pointer;
+      letter-spacing: 0.05em;
+      transition: border-color 150ms ease, box-shadow 150ms ease;
+    }
+    .btn-print:hover {
+      border-color: #00FFF7;
+      box-shadow: 0 0 8px rgba(0,255,247,0.15);
+    }
+
+    .btn-back {
+      font-size: 11px;
+      color: #9aa0b4;
+      text-decoration: none;
+      transition: color 150ms ease;
+    }
+    .btn-back:hover { color: #e6eef6; }
+
+    /* ── Resume card ── */
+    .resume-wrap {
+      max-width: 860px;
+      margin: 32px auto 64px;
+      padding: 0 24px;
+    }
+
+    .resume {
+      background: #ffffff;
+      color: #111111;
+      font-family: "IBM Plex Mono", ui-monospace, monospace;
+      font-size: 12px;
+      line-height: 1.6;
+      padding: 48px 52px;
+      border: 2px solid #22294b;
+    }
+
+    /* ── Resume internals ── */
+    .r-name {
+      font-family: "Orbitron", sans-serif;
+      font-size: 22px;
+      font-weight: 700;
+      color: #0A0E2A;
+      letter-spacing: 0.04em;
+      margin-bottom: 4px;
+    }
+
+    .r-title {
+      font-size: 12px;
+      color: #444;
+      margin-bottom: 10px;
+    }
+
+    .r-contact {
+      font-size: 11px;
+      color: #555;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px 16px;
+      margin-bottom: 28px;
+      padding-bottom: 16px;
+      border-bottom: 2px solid #0A0E2A;
+    }
+    .r-contact a { color: #0055cc; text-decoration: none; }
+    .r-contact a:hover { text-decoration: underline; }
+
+    .r-section {
+      margin-bottom: 22px;
+    }
+
+    .r-section-title {
+      font-family: "Orbitron", sans-serif;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      color: #0A0E2A;
+      border-bottom: 1.5px solid #0A0E2A;
+      padding-bottom: 4px;
+      margin-bottom: 12px;
+      text-transform: uppercase;
+    }
+
+    /* Summary */
+    .r-summary {
+      font-size: 12px;
+      color: #222;
+      line-height: 1.7;
+    }
+
+    /* Skills — inline tag groups */
+    .r-skills-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .r-skill-row {
+      display: flex;
+      gap: 8px;
+      align-items: baseline;
+      flex-wrap: wrap;
+    }
+
+    .r-skill-label {
+      font-size: 10px;
+      font-weight: 500;
+      color: #555;
+      min-width: 100px;
+      flex-shrink: 0;
+    }
+
+    .r-skill-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+    }
+
+    .r-tag {
+      font-size: 10px;
+      color: #222;
+      border: 1px solid #bbb;
+      padding: 1px 7px;
+    }
+
+    /* Experience */
+    .r-exp-item {
+      margin-bottom: 16px;
+    }
+
+    .r-exp-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 8px;
+      margin-bottom: 2px;
+    }
+
+    .r-exp-company {
+      font-weight: 500;
+      font-size: 12px;
+      color: #0A0E2A;
+    }
+
+    .r-exp-dates {
+      font-size: 10px;
+      color: #666;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .r-exp-role {
+      font-size: 11px;
+      color: #555;
+      margin-bottom: 6px;
+    }
+
+    .r-exp-bullets {
+      padding-left: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .r-exp-bullets li {
+      font-size: 11px;
+      color: #222;
+      line-height: 1.6;
+      list-style: disc;
+    }
+
+    /* Game jams */
+    .r-jams {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .r-jam {
+      font-size: 11px;
+      color: #222;
+      display: flex;
+      gap: 6px;
+    }
+
+    .r-jam-bullet { color: #0A0E2A; flex-shrink: 0; }
+
+    /* Projects */
+    .r-projects {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .r-proj-title {
+      font-weight: 500;
+      font-size: 12px;
+      color: #0A0E2A;
+    }
+
+    .r-proj-title a { color: #0055cc; text-decoration: none; }
+    .r-proj-title a:hover { text-decoration: underline; }
+
+    .r-proj-stack {
+      font-size: 10px;
+      color: #666;
+      margin-bottom: 2px;
+    }
+
+    .r-proj-desc {
+      font-size: 11px;
+      color: #333;
+      line-height: 1.6;
+    }
+
+    /* Education */
+    .r-edu-school {
+      font-weight: 500;
+      font-size: 12px;
+      color: #0A0E2A;
+    }
+
+    .r-edu-detail {
+      font-size: 11px;
+      color: #555;
+    }
+
+    /* ── Print styles ── */
+    @media print {
+      body { background: white; }
+
+      .screen-bar { display: none; }
+
+      .resume-wrap {
+        margin: 0;
+        padding: 0;
+        max-width: 100%;
+      }
+
+      .resume {
+        border: none;
+        padding: 20px 28px;
+        font-size: 11px;
+      }
+
+      .r-name { font-size: 20px; }
+
+      a { color: inherit !important; text-decoration: none !important; }
+
+      .r-exp-item { page-break-inside: avoid; }
+    }
+
+    @media (max-width: 600px) {
+      .resume { padding: 28px 20px; }
+      .r-exp-header { flex-direction: column; gap: 0; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Screen-only top bar — hidden when printing -->
+<div class="screen-bar">
+  <a href="/" class="screen-bar-logo">SATVIK<span>.</span>NAGPAL</a>
+  <div class="screen-bar-actions">
+    <a href="/" class="btn-back">← Back to site</a>
+    <button class="btn-print" onclick="window.print()">Print / Save as PDF</button>
+  </div>
+</div>
+
+<div class="resume-wrap">
+  <div class="resume">
+
+    <!-- Header -->
+    <h1 class="r-name">SATVIK NAGPAL</h1>
+    <p class="r-title">Game Developer &nbsp;|&nbsp; Unity &amp; C++ &nbsp;|&nbsp; Performance &amp; Engine Systems</p>
+    <div class="r-contact">
+      <span>+91 96435 56256</span>
+      <a href={`mailto:${social.email}`}>{social.email}</a>
+      <a href={social.linkedin} target="_blank" rel="noopener">linkedin.com/in/satviknagpal01</a>
+      <a href={social.github} target="_blank" rel="noopener">github.com/satviknagpal01</a>
+    </div>
+
+    <!-- Summary -->
+    <section class="r-section">
+      <h2 class="r-section-title">Summary</h2>
+      <p class="r-summary">
+        Game Developer with three years of production experience building and shipping Unity titles on Android and iOS. Focused on rendering performance, runtime systems, and the editor tooling that accelerates teams. Currently shipping a live multiplayer mobile game at Appsoleut Games, with prior contributions to two commercial XR products. Top-5 competitive game jam placements across BYOG and Survive Game Jam.
+      </p>
+    </section>
+
+    <!-- Skills -->
+    <section class="r-section">
+      <h2 class="r-section-title">Skills</h2>
+      <div class="r-skills-grid">
+        <div class="r-skill-row">
+          <span class="r-skill-label">Languages</span>
+          <div class="r-skill-tags">
+            <span class="r-tag">C#</span>
+            <span class="r-tag">C / C++</span>
+            <span class="r-tag">HLSL / GLSL</span>
+          </div>
+        </div>
+        <div class="r-skill-row">
+          <span class="r-skill-label">Engine &amp; Rendering</span>
+          <div class="r-skill-tags">
+            <span class="r-tag">Unity</span>
+            <span class="r-tag">Unity URP</span>
+            <span class="r-tag">Shader Graph</span>
+            <span class="r-tag">OpenGL (personal)</span>
+          </div>
+        </div>
+        <div class="r-skill-row">
+          <span class="r-skill-label">Unity Ecosystem</span>
+          <div class="r-skill-tags">
+            <span class="r-tag">Editor Tools</span>
+            <span class="r-tag">Addressables</span>
+            <span class="r-tag">UI Toolkit</span>
+            <span class="r-tag">XR Toolkit</span>
+          </div>
+        </div>
+        <div class="r-skill-row">
+          <span class="r-skill-label">Profiling</span>
+          <div class="r-skill-tags">
+            <span class="r-tag">Unity Profiler</span>
+            <span class="r-tag">RenderDoc</span>
+            <span class="r-tag">Android GPU Inspector</span>
+          </div>
+        </div>
+        <div class="r-skill-row">
+          <span class="r-skill-label">Tools</span>
+          <div class="r-skill-tags">
+            <span class="r-tag">Git</span>
+            <span class="r-tag">Visual Studio</span>
+            <span class="r-tag">Android / iOS Build Pipeline</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Experience -->
+    <section class="r-section">
+      <h2 class="r-section-title">Experience</h2>
+
+      <div class="r-exp-item">
+        <div class="r-exp-header">
+          <span class="r-exp-company">Appsoleut Games, Gurgaon</span>
+          <span class="r-exp-dates">Dec 2023 – Present</span>
+        </div>
+        <div class="r-exp-role">Game Developer</div>
+        <ul class="r-exp-bullets">
+          <li>Shipped <em>Car Driving Multiplayer</em> — a live Unity multiplayer simulation game on Android and iOS — and continue delivering features and optimisations to an active player base.</li>
+          <li>Drove rendering optimisation (mesh batching, draw call reduction, LOD tuning) to hold frame budget on mid-range Android — the primary hardware constraint for the target market.</li>
+          <li>Engineered a custom Unity Editor tooling suite for the design team; reduced content iteration time by 70% and eliminated the recurring data-entry errors that previously blocked sprint completion.</li>
+          <li>Designed and shipped core gameplay systems — car selection, career progression, and session management — built for live updates and running in production.</li>
+        </ul>
+      </div>
+
+      <div class="r-exp-item">
+        <div class="r-exp-header">
+          <span class="r-exp-company">Tooliqa, Gurgaon</span>
+          <span class="r-exp-dates">Jan 2023 – Dec 2023</span>
+        </div>
+        <div class="r-exp-role">Junior Game Developer</div>
+        <ul class="r-exp-bullets">
+          <li>Engineered runtime mesh editing operations — extrude, flip, and parametric shape controls — directly manipulating Unity mesh data for <em>Twinn Create</em>, a commercial design product.</li>
+          <li>Built the real-time material and furniture preview system powering <em>Twinn Vision</em>'s interior design visualiser — instant visual feedback, no bake step.</li>
+          <li>Developed debugging tooling for the Computer Vision team to surface and fix scene misalignment — replacing slow manual inspection with an automated, visual workflow.</li>
+        </ul>
+      </div>
+
+      <div class="r-exp-item">
+        <div class="r-exp-header">
+          <span class="r-exp-company">AiSolve Limited, Bangalore</span>
+          <span class="r-exp-dates">Jun 2022 – Aug 2022</span>
+        </div>
+        <div class="r-exp-role">Intern</div>
+        <ul class="r-exp-bullets">
+          <li>Cross-ported a VR anatomy quiz from HTC Vive to Oculus Quest using Unity XR Toolkit — navigating SDK and input-mapping differences to achieve stable standalone performance.</li>
+          <li>Expanded an AR/MR heart anatomy visualisation with interactive annotation layers and instrumented analytics, deepening educational value and usage insight for the client.</li>
+        </ul>
+      </div>
+
+      <div class="r-exp-item">
+        <div class="r-exp-header">
+          <span class="r-exp-company">Engineers India Limited, Gurgaon</span>
+          <span class="r-exp-dates">Jul 2021</span>
+        </div>
+        <div class="r-exp-role">Intern</div>
+        <ul class="r-exp-bullets">
+          <li>Developed a web-based internal training records system in ASP.NET and C# — delivered and in live use within a one-month internship window.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Game Jams & Achievements -->
+    <section class="r-section">
+      <h2 class="r-section-title">Game Jams &amp; Achievements</h2>
+      <div class="r-jams">
+        <div class="r-jam">
+          <span class="r-jam-bullet">▶</span>
+          <span><strong>Survive Game Jam 2021</strong> — Top 5: <em>There is a Game in Your Bug</em></span>
+        </div>
+        <div class="r-jam">
+          <span class="r-jam-bullet">▶</span>
+          <span><strong>BYOG 2021</strong> — Top 20: <em>Rage - The Game</em></span>
+        </div>
+        <div class="r-jam">
+          <span class="r-jam-bullet">▶</span>
+          <span>Invited to showcase <em>It Went Boom</em> to industry leaders as a Top 5 game</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Projects -->
+    <section class="r-section">
+      <h2 class="r-section-title">Projects</h2>
+      <div class="r-projects">
+        <div>
+          <div class="r-proj-title">
+            <a href="https://thefrozenknight.itch.io/there-is-a-game-in-your-bug" target="_blank" rel="noopener">
+              There is a Game in Your Bug
+            </a>
+          </div>
+          <div class="r-proj-stack">C#, Unity</div>
+          <p class="r-proj-desc">Retro puzzle game where the rules of the game shift mid-play. Top-5 finish in Survive Game Jam 2021, built in 48 hours with a team of 4.</p>
+        </div>
+        <div>
+          <div class="r-proj-title">Twinn Create — Runtime Mesh Editor</div>
+          <div class="r-proj-stack">C#, Unity, Shader Graph, UI Toolkit</div>
+          <p class="r-proj-desc">Runtime mesh editing system — extrude, flip, and parametric controls — built for <em>Twinn Create</em>, a commercial interior design product at Tooliqa.</p>
+        </div>
+        <div>
+          <div class="r-proj-title">Rage - The Game</div>
+          <div class="r-proj-stack">C#, Unity</div>
+          <p class="r-proj-desc">Puzzle-platformer where players navigate increasingly complex levels to reach a wormhole. Top-20 finish at BYOG 2021.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Education -->
+    <section class="r-section">
+      <h2 class="r-section-title">Education</h2>
+      <div class="r-edu-school">The NorthCap University, Gurgaon</div>
+      <div class="r-edu-detail">B.Tech in Game Technology &nbsp;·&nbsp; 2019 – 2023 &nbsp;·&nbsp; CGPA 7.4</div>
+    </section>
+
+  </div>
+</div>
+
+</body>
+</html>

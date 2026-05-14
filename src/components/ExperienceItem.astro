@@ -1,0 +1,94 @@
+---
+interface Props {
+  company: string;
+  role: string;
+  location: string;
+  start: string;
+  end: string;
+  bullets: string[];
+}
+
+const { company, role, location, start, end, bullets } = Astro.props;
+---
+
+<article class="exp-item">
+  <header class="exp-header">
+    <div class="exp-left">
+      <div class="exp-company">{company}</div>
+      <div class="exp-role">{role}</div>
+    </div>
+    <div class="exp-right">
+      <div class="exp-range">{start} – {end}</div>
+      <div class="exp-location">{location}</div>
+    </div>
+  </header>
+
+  <ul class="exp-bullets">
+    {bullets.map(b => (
+      <li>
+        <span class="bullet" aria-hidden="true">—</span>
+        {b}
+      </li>
+    ))}
+  </ul>
+</article>
+
+<style>
+  .exp-item {
+    border: 2px solid var(--border);
+    background: var(--panel);
+    padding: var(--s-5) var(--s-6);
+  }
+
+  .exp-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: var(--s-3);
+    margin-bottom: var(--s-4);
+    padding-bottom: var(--s-4);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .exp-company {
+    font-family: var(--font-display);
+    font-size: 13px;
+    color: var(--gold);
+    margin-bottom: var(--s-1);
+  }
+
+  .exp-role {
+    font-size: var(--text-body);
+    color: var(--cyan);
+  }
+
+  .exp-right { text-align: right; }
+
+  .exp-range {
+    font-size: var(--text-small);
+    color: var(--muted);
+    margin-bottom: var(--s-1);
+  }
+
+  .exp-location {
+    font-size: var(--text-small);
+    color: var(--muted);
+  }
+
+  .exp-bullets {
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-3);
+  }
+
+  .exp-bullets li {
+    display: flex;
+    gap: var(--s-3);
+    font-size: var(--text-small);
+    color: var(--text);
+    line-height: 1.6;
+  }
+
+  .bullet { color: var(--border); flex-shrink: 0; }
+</style>

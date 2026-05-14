@@ -1,0 +1,74 @@
+---
+import Tag from './Tag.astro';
+
+interface Writeup {
+  slug: string;
+  title: string;
+  description: string;
+  pubDate: string;
+  tags: string[];
+}
+
+interface Props {
+  writeup: Writeup;
+}
+
+const { writeup } = Astro.props;
+const { slug, title, description, pubDate, tags } = writeup;
+
+const dateStr = new Intl.DateTimeFormat('en-US', {
+  year: 'numeric', month: 'short', day: 'numeric', timeZone: 'UTC',
+}).format(new Date(pubDate));
+---
+
+<article class="wcard">
+  <time class="wcard-date">{dateStr}</time>
+
+  <h3 class="wcard-title">
+    <a href={`/writeups/${slug}/`}>{title}</a>
+  </h3>
+
+  <p class="wcard-desc">{description}</p>
+
+  {tags.length > 0 && (
+    <div class="wcard-tags">
+      {tags.map((t: string) => <Tag>{t}</Tag>)}
+    </div>
+  )}
+</article>
+
+<style>
+  .wcard {
+    border: 2px solid var(--border);
+    background: var(--panel);
+    padding: var(--s-5);
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-3);
+    transition: border-color 150ms ease;
+  }
+  .wcard:hover { border-color: var(--muted); }
+
+  .wcard-date {
+    font-size: var(--text-small);
+    color: var(--muted);
+  }
+
+  .wcard-title {
+    font-family: var(--font-display);
+    font-size: 14px;
+    color: var(--text);
+    line-height: 1.4;
+  }
+  .wcard-title a { color: inherit; }
+  .wcard-title a:hover,
+  .wcard-title a:focus-visible { color: var(--gold); }
+
+  .wcard-desc {
+    font-size: var(--text-small);
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  .wcard-tags { display: flex; flex-wrap: wrap; gap: var(--s-2); }
+</style>

@@ -1,0 +1,17 @@
+---
+import ArticleLayout from '../../layouts/ArticleLayout.astro';
+import allWriteups from '../../data/writeups.json';
+
+export function getStaticPaths() {
+  return allWriteups
+    .filter(w => !w.draft)
+    .map(w => ({ params: { slug: w.slug }, props: { writeup: w } }));
+}
+
+const { writeup } = Astro.props;
+const { title, description, pubDate, tags, body } = writeup;
+---
+
+<ArticleLayout {title} {description} pubDate={new Date(pubDate)} {tags}>
+  <Fragment set:html={body} />
+</ArticleLayout>

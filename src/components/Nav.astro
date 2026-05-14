@@ -1,0 +1,378 @@
+---
+import social from '../data/social.json';
+const { pathname } = Astro.url;
+
+const links = [
+  { label: 'Projects',    href: '/projects/' },
+  //{ label: 'Writeups',   href: '/writeups/' },
+  { label: 'Experience', href: '/experience/' },
+  { label: 'About',      href: '/about/' },
+  { label: 'Contact',    href: '/contact/' },
+];
+
+const isActive = (href: string) =>
+  href === '/' ? pathname === '/' : pathname.startsWith(href);
+---
+
+<!-- ── Fixed header bar ── -->
+<header class="site-header" id="site-header">
+  <div class="nav-inner">
+    <a href="/" class="logo" aria-label="Home">
+      SATVIK<span class="logo-dot">.</span>NAGPAL
+    </a>
+
+    <button
+      class="hamburger"
+      aria-expanded="false"
+      aria-controls="mobile-nav"
+      aria-label="Open navigation"
+      id="hamburger-btn"
+    >
+      <span class="bar"></span>
+      <span class="bar"></span>
+      <span class="bar"></span>
+    </button>
+
+    <!-- Desktop-only nav — hidden on mobile via CSS -->
+    <nav class="desktop-nav" aria-label="Main navigation">
+      <ul class="nav-list">
+        {links.map(link => (
+          <li>
+            <a
+              href={link.href}
+              class:list={['nav-link', { active: isActive(link.href) }]}
+              aria-current={isActive(link.href) ? 'page' : undefined}
+            >
+              {link.label}
+            </a>
+          </li>
+        ))}
+        <li>
+          <a href="/resume/" class="nav-resume">
+            Resume ↗
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<!--
+  Mobile full-screen overlay — sibling of header, NOT inside it.
+  This avoids the stacking context created by backdrop-filter on the header.
+  z-index 999 sits below the header (1000) so the hamburger remains clickable.
+-->
+<div
+  class="mobile-overlay"
+  id="mobile-nav"
+  aria-hidden="true"
+  inert
+>
+  <nav aria-label="Main navigation">
+    <ul class="mobile-nav-list">
+      {links.map(link => (
+        <li>
+          <a
+            href={link.href}
+            class:list={['mobile-nav-link', { active: isActive(link.href) }]}
+            aria-current={isActive(link.href) ? 'page' : undefined}
+          >
+            {link.label}
+          </a>
+        </li>
+      ))}
+    </ul>
+
+    <a href="/resume/" class="mobile-nav-resume">
+      Resume ↗
+    </a>
+  </nav>
+
+  <!-- Footer pinned at the base of the overlay -->
+  <footer class="overlay-footer">
+    <div class="overlay-footer-links">
+      <a href={social.github} target="_blank" rel="noopener">GitHub</a>
+      <span aria-hidden="true">·</span>
+      <a href={social.linkedin} target="_blank" rel="noopener">LinkedIn</a>
+      <span aria-hidden="true">·</span>
+      <a href={`mailto:${social.email}`}>Email</a>
+    </div>
+    <p class="overlay-footer-copy">© {new Date().getFullYear()} Satvik Nagpal</p>
+  </footer>
+</div>
+
+<script>
+  const btn     = document.getElementById('hamburger-btn') as HTMLButtonElement | null;
+  const overlay = document.getElementById('mobile-nav');
+  const mq      = window.matchMedia('(min-width: 721px)');
+
+  function openNav() {
+    btn?.setAttribute('aria-expanded', 'true');
+    btn?.setAttribute('aria-label', 'Close navigation');
+    overlay?.classList.add('is-open');
+    overlay?.removeAttribute('inert');
+    overlay?.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeNav() {
+    btn?.setAttribute('aria-expanded', 'false');
+    btn?.setAttribute('aria-label', 'Open navigation');
+    overlay?.classList.remove('is-open');
+    overlay?.setAttribute('inert', '');
+    overlay?.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+
+  btn?.addEventListener('click', () => {
+    btn.getAttribute('aria-expanded') === 'true' ? closeNav() : openNav();
+  });
+
+  overlay?.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', closeNav);
+  });
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && overlay?.classList.contains('is-open')) {
+      closeNav();
+      btn?.focus();
+    }
+  });
+
+  mq.addEventListener('change', e => { if (e.matches) closeNav(); });
+</script>
+
+<style>
+  /* ══════════════════════════════════════
+     Header bar (shared mobile + desktop)
+  ══════════════════════════════════════ */
+  .site-header {
+    position: fixed;
+    inset: 0 0 auto;
+    z-index: 1000;
+    background: rgba(10, 14, 42, 0.95);
+    border-bottom: 2px solid var(--border);
+    backdrop-filter: blur(6px);
+  }
+
+  .nav-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--s-4);
+    max-width: var(--container);
+    margin: 0 auto;
+    height: var(--nav-h);
+    padding: 0 var(--s-5);
+  }
+
+  /* ── Logo ── */
+  .logo {
+    font-family: var(--font-display);
+    font-size: var(--text-ui);
+    color: var(--gold);
+    border: 2px solid var(--border);
+    padding: var(--s-2) var(--s-3);
+    letter-spacing: 0.05em;
+    transition: border-color 150ms ease;
+    white-space: nowrap;
+  }
+  .logo:hover,
+  .logo:focus-visible { border-color: var(--gold); outline: none; }
+  .logo-dot { color: var(--cyan); }
+
+  /* ── Hamburger (mobile only) ── */
+  .hamburger {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    width: 36px;
+    height: 36px;
+    padding: 6px;
+    border: 2px solid var(--border);
+    background: transparent;
+    cursor: pointer;
+    transition: border-color 150ms ease;
+  }
+  .hamburger:hover,
+  .hamburger:focus-visible { border-color: var(--cyan); outline: none; }
+
+  .bar {
+    display: block;
+    width: 100%;
+    height: 2px;
+    background: var(--muted);
+    transition: transform 150ms ease, opacity 150ms ease, background 150ms ease;
+  }
+  .hamburger[aria-expanded="true"] .bar:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+    background: var(--cyan);
+  }
+  .hamburger[aria-expanded="true"] .bar:nth-child(2) { opacity: 0; }
+  .hamburger[aria-expanded="true"] .bar:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
+    background: var(--cyan);
+  }
+
+  /* ══════════════════════════════════
+     Desktop nav
+  ══════════════════════════════════ */
+  .desktop-nav .nav-list {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+  }
+
+  .nav-link {
+    display: block;
+    font-family: var(--font-body);
+    font-size: var(--text-small);
+    color: var(--muted);
+    padding: var(--s-2) var(--s-3);
+    border: 2px solid transparent;
+    transition: color 150ms ease, border-color 150ms ease;
+    white-space: nowrap;
+  }
+  .nav-link:hover,
+  .nav-link:focus-visible { color: var(--text); outline: none; }
+  .nav-link.active {
+    color: var(--cyan);
+    border-bottom-color: var(--cyan);
+  }
+
+  .nav-resume {
+    display: block;
+    font-family: var(--font-display);
+    font-size: 11px;
+    color: var(--cyan);
+    border: 2px solid var(--border);
+    padding: var(--s-2) var(--s-3);
+    margin-left: var(--s-3);
+    transition: border-color 150ms ease, box-shadow 150ms ease;
+    white-space: nowrap;
+  }
+  .nav-resume:hover,
+  .nav-resume:focus-visible {
+    border-color: var(--cyan);
+    box-shadow: 0 0 8px rgba(0, 255, 247, 0.15);
+    outline: none;
+  }
+
+  /* ══════════════════════════════════
+     Mobile overlay (hidden on desktop)
+  ══════════════════════════════════ */
+  .mobile-overlay { display: none; }
+
+  /* ══════════════════════════════════
+     Mobile breakpoint
+  ══════════════════════════════════ */
+  @media (max-width: 720px) {
+    .hamburger    { display: flex; }
+    .desktop-nav  { display: none; }
+
+    /* Full-screen overlay below the fixed header bar */
+    .mobile-overlay {
+      display: flex;
+      flex-direction: column;
+      position: fixed;
+      inset: 0;
+      z-index: 999;                           /* below header (1000) */
+      background: var(--bg);
+      border-top: 2px solid var(--border);
+      /* top padding clears the fixed header bar */
+      padding: calc(var(--nav-h) + var(--s-6)) var(--s-6) var(--s-6);
+      /* slide in from the right */
+      transform: translateX(100%);
+      visibility: hidden;
+      transition: transform 250ms ease, visibility 0s 250ms;
+      overflow-y: auto;
+    }
+
+    .mobile-overlay.is-open {
+      transform: translateX(0);
+      visibility: visible;
+      transition: transform 250ms ease, visibility 0s 0s;
+    }
+
+    /* nav grows to push footer down */
+    .mobile-overlay > nav { flex: 1; }
+
+    /* ── Nav links ── */
+    .mobile-nav-list {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .mobile-nav-link {
+      display: block;
+      font-family: var(--font-display);
+      font-size: clamp(20px, 6vw, 28px);
+      letter-spacing: 0.04em;
+      color: var(--muted);
+      padding: var(--s-5) var(--s-3);
+      border-bottom: 1px solid var(--border);
+      border-left: 3px solid transparent;
+      transition: color 150ms ease, border-left-color 150ms ease;
+    }
+    .mobile-nav-link:hover,
+    .mobile-nav-link:focus-visible {
+      color: var(--text);
+      outline: none;
+    }
+    .mobile-nav-link.active {
+      color: var(--cyan);
+      border-left-color: var(--cyan);
+    }
+
+    .mobile-nav-resume {
+      display: inline-block;
+      font-family: var(--font-display);
+      font-size: var(--text-small);
+      color: var(--cyan);
+      border: 2px solid var(--border);
+      padding: var(--s-3) var(--s-4);
+      margin-top: var(--s-5);
+      transition: border-color 150ms ease, box-shadow 150ms ease;
+    }
+    .mobile-nav-resume:hover,
+    .mobile-nav-resume:focus-visible {
+      border-color: var(--cyan);
+      box-shadow: 0 0 8px rgba(0, 255, 247, 0.15);
+      outline: none;
+    }
+
+    /* ── Footer at the base of the overlay ── */
+    .overlay-footer {
+      border-top: 1px solid var(--border);
+      padding-top: var(--s-5);
+      margin-top: var(--s-5);
+    }
+
+    .overlay-footer-links {
+      display: flex;
+      align-items: center;
+      gap: var(--s-3);
+      flex-wrap: wrap;
+      font-size: var(--text-small);
+    }
+    .overlay-footer-links a {
+      color: var(--muted);
+      transition: color 150ms ease;
+    }
+    .overlay-footer-links a:hover,
+    .overlay-footer-links a:focus-visible { color: var(--cyan); outline: none; }
+    .overlay-footer-links span { color: var(--border); }
+
+    .overlay-footer-copy {
+      font-size: var(--text-small);
+      color: var(--muted);
+      margin-top: var(--s-3);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .mobile-overlay,
+    .mobile-overlay.is-open { transition: none; }
+  }
+</style>

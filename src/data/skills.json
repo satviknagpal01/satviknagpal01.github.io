@@ -1,0 +1,7 @@
+{
+  "languages":    ["C#", "C / C++", "HLSL / GLSL"],
+  "graphicsAPIs": ["Unity URP", "Shader Graph", "OpenGL (personal)"],
+  "engines":      ["Unity (Editor Tools, Addressables, UI Toolkit, XR)"],
+  "tools":        ["Git", "Visual Studio", "Android & iOS Build Pipeline"],
+  "profilers":    ["Unity Profiler", "RenderDoc", "Android GPU Inspector"]
+}

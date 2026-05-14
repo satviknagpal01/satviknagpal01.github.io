@@ -1,0 +1,76 @@
+---
+interface Props {
+  href?: string;
+  variant?: 'primary' | 'secondary' | 'ghost';
+  target?: string;
+  rel?: string;
+  type?: 'button' | 'submit';
+  class?: string;
+}
+
+const {
+  href,
+  variant = 'primary',
+  target,
+  rel,
+  type = 'button',
+  class: className,
+} = Astro.props;
+
+const Tag = href ? 'a' : 'button';
+---
+
+<Tag
+  class:list={['btn', `btn--${variant}`, className]}
+  href={href}
+  target={target}
+  rel={rel}
+  type={!href ? type : undefined}
+>
+  <slot />
+</Tag>
+
+<style>
+  .btn {
+    display: inline-block;
+    font-family: var(--font-display);
+    font-size: var(--text-ui);
+    letter-spacing: 0.04em;
+    padding: var(--s-3) var(--s-5);
+    border: 2px solid var(--border);
+    cursor: pointer;
+    transition: border-color 150ms ease, box-shadow 150ms ease, color 150ms ease;
+    white-space: nowrap;
+    text-decoration: none;
+  }
+
+  .btn--primary {
+    color: var(--cyan);
+    background: transparent;
+  }
+  .btn--primary:hover,
+  .btn--primary:focus-visible {
+    border-color: var(--cyan);
+    box-shadow: 0 0 10px rgba(0, 255, 247, 0.15);
+  }
+
+  .btn--secondary {
+    color: var(--muted);
+    background: transparent;
+  }
+  .btn--secondary:hover,
+  .btn--secondary:focus-visible {
+    color: var(--text);
+    border-color: var(--muted);
+  }
+
+  .btn--ghost {
+    color: var(--gold);
+    border-color: var(--gold);
+    background: transparent;
+  }
+  .btn--ghost:hover,
+  .btn--ghost:focus-visible {
+    box-shadow: 0 0 10px rgba(248, 210, 16, 0.15);
+  }
+</style>

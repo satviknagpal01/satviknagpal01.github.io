@@ -1,0 +1,29 @@
+[
+  {
+    "slug": "profiling-renderer",
+    "title": "Profiling a Deferred Renderer: Where the Frame Time Actually Goes",
+    "description": "A practical walkthrough of using RenderDoc and GPU counters to find real bottlenecks in a custom deferred shading pipeline — results that surprised me.",
+    "pubDate": "2026-04-01",
+    "tags": ["rendering", "profiling", "OpenGL", "performance"],
+    "draft": false,
+    "body": "<p><em>Draft — coming soon.</em></p><p>This writeup will cover my process for profiling the deferred renderer project using RenderDoc, GPU counters, and CPU-side timing. The main finding: the bottleneck I assumed (the lighting pass) was not the real bottleneck. The GBuffer clear was eating 3ms on integrated graphics due to a tiling architecture quirk I hadn't anticipated.</p><p>Topics to cover:</p><ul><li>Setting up RenderDoc capture points without disrupting the render loop</li><li>Reading GPU counters vs wall-clock timing — why they disagree</li><li>The unexpected bottleneck: framebuffer clears on tiled GPUs</li><li>How moving from <code>glClear</code> to explicit per-attachment invalidation saved 2.1ms</li></ul><p><em>Check back for the full writeup.</em></p>"
+  },
+  {
+    "slug": "bindless-textures",
+    "title": "Bindless Textures in OpenGL: What the Extension Actually Buys You",
+    "description": "Testing ARB_bindless_texture on a PBR material system — measured draw-call overhead reduction and where it stops helping.",
+    "pubDate": "2026-03-01",
+    "tags": ["OpenGL", "rendering", "textures", "GPU"],
+    "draft": false,
+    "body": "<p><em>Draft — coming soon.</em></p><p>Bindless textures remove the need to bind individual textures before each draw call. In theory this should reduce CPU overhead dramatically. In practice, the gains are narrower than the marketing suggests. This writeup documents my experiment: taking the PBR renderer, enabling <code>ARB_bindless_texture</code>, and measuring what actually changed.</p><p>Topics to cover:</p><ul><li>How traditional texture binding creates CPU stalls</li><li>The bindless model: GPU handles and resident textures</li><li>Benchmark setup: 500 material draws, varying texture count per material</li><li>Results: 18% CPU improvement on the tested hardware, zero GPU improvement</li><li>When bindless helps (material variety) vs when it doesn't (few textures, GPU-bound)</li></ul><p><em>Check back for the full writeup.</em></p>"
+  },
+  {
+    "slug": "thread-affinity",
+    "title": "Thread Affinity and Cache Locality in a Game Loop",
+    "description": "How pinning worker threads to physical cores (not hyperthreads) cut cache misses by 40% in a job-based game loop.",
+    "pubDate": "2026-02-01",
+    "tags": ["C++", "multithreading", "performance", "CPU"],
+    "draft": false,
+    "body": "<p><em>Draft — coming soon.</em></p><p>Modern CPUs expose twice as many logical cores as physical ones via hyperthreading. A naive thread pool that spawns one thread per logical core can perform significantly worse than one pinned to physical cores only — especially for work that shares data. This writeup documents an experiment with a simple job-based game loop where the difference was measurable.</p><p>Topics to cover:</p><ul><li>Hyperthreading and why logical != physical cores for cache purposes</li><li>Setting thread affinity on Windows (<code>SetThreadAffinityMask</code>)</li><li>The test: particle system update with 100k entities, 8 logical cores / 4 physical</li><li>Results: 40% fewer L2 cache misses, 15% faster wall-clock time on physical-only affinity</li><li>When to use physical-core pinning and when it doesn't matter</li></ul><p><em>Check back for the full writeup.</em></p>"
+  }
+]

@@ -1,0 +1,137 @@
+---
+import Tag from './Tag.astro';
+
+interface Project {
+  slug: string;
+  title: string;
+  stack: string[];
+  problem: string;
+  achievements: string[];
+}
+
+interface Props {
+  project: Project;
+  featured?: boolean;
+}
+
+const { project, featured = false } = Astro.props;
+const { slug, title, stack, problem, achievements } = project;
+
+const initials = title.split(' ').slice(0, 2).map((w: string) => w[0]).join('').toUpperCase();
+---
+
+<article class:list={['card', { 'card--featured': featured }]}>
+  <a href={`/projects/${slug}/`} class="card-link" tabindex="-1" aria-hidden="true">
+    <div class="card-thumb" aria-hidden="true">{initials}</div>
+  </a>
+
+  <div class="card-body">
+    <div class="card-tags">
+      {stack.slice(0, 3).map((t: string) => <Tag>{t}</Tag>)}
+    </div>
+
+    <h3 class="card-title">
+      <a href={`/projects/${slug}/`}>{title}</a>
+    </h3>
+
+    <p class="card-problem">{problem}</p>
+
+    {featured && (
+      <ul class="card-achievements">
+        {achievements.slice(0, 3).map((a: string) => (
+          <li><span class="bullet" aria-hidden="true">▶</span>{a}</li>
+        ))}
+      </ul>
+    )}
+
+    <a href={`/projects/${slug}/`} class="card-cta">
+      View case study →
+    </a>
+  </div>
+</article>
+
+<style>
+  .card {
+    border: 2px solid var(--border);
+    background: var(--surface);
+    display: flex;
+    flex-direction: column;
+    transition: transform 150ms ease, box-shadow 150ms ease;
+  }
+  .card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0, 224, 255, 0.06);
+  }
+
+  .card-link { display: block; }
+
+  .card-thumb {
+    height: 120px;
+    background: var(--panel);
+    border-bottom: 2px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-display);
+    font-size: clamp(18px, 3vw, 28px);
+    color: var(--cyan);
+    letter-spacing: 0.1em;
+  }
+
+  .card--featured .card-thumb { height: 160px; font-size: clamp(22px, 4vw, 36px); }
+
+  .card-body {
+    padding: var(--s-5);
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-3);
+    flex: 1;
+  }
+
+  .card-tags { display: flex; flex-wrap: wrap; gap: var(--s-2); }
+
+  .card-title {
+    font-family: var(--font-display);
+    font-size: 14px;
+    color: var(--text);
+    line-height: 1.4;
+  }
+  .card-title a { color: inherit; }
+  .card-title a:hover,
+  .card-title a:focus-visible { color: var(--gold); }
+
+  .card-problem {
+    font-size: var(--text-small);
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  .card-achievements {
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-2);
+    margin-top: var(--s-2);
+  }
+
+  .card-achievements li {
+    display: flex;
+    gap: var(--s-2);
+    font-size: var(--text-small);
+    color: var(--text);
+    line-height: 1.5;
+  }
+
+  .bullet { color: var(--gold); font-size: 9px; padding-top: 4px; flex-shrink: 0; }
+
+  .card-cta {
+    display: inline-block;
+    font-family: var(--font-body);
+    font-size: var(--text-small);
+    color: var(--cyan);
+    margin-top: auto;
+    padding-top: var(--s-3);
+    transition: color 150ms ease;
+  }
+  .card-cta:hover,
+  .card-cta:focus-visible { color: var(--gold); }
+</style>

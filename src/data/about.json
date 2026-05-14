@@ -1,0 +1,5 @@
+{
+  "tagline": "I build game systems that perform under pressure. Three years of production development — shipping a live multiplayer mobile game, engineering runtime tools for commercial products, and pushing rendering performance on constrained hardware.",
+  "focus":   "Currently at Appsoleut Games, contributing core systems to a live multiplayer mobile simulation game. Outside production, I'm building C++ projects in OpenGL — studying render passes, command buffers, and GPU memory from first principles.",
+  "learning": "GPU architecture, real-time rendering theory, and low-level engine systems. The goal is a role writing code closer to the hardware — shaders, render pipelines, and the systems that make frames fast."
+}

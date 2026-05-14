@@ -1,0 +1,59 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ProjectCard from '../../components/ProjectCard.astro';
+import allProjects from '../../data/projects.json';
+
+const projects = allProjects
+  .filter(p => !p.draft)
+  .sort((a, b) => a.order - b.order);
+---
+
+<BaseLayout
+  title="Projects"
+  description="A selection of graphics programming, engine systems, and tooling projects."
+>
+  <div class="page-wrap">
+    <header class="page-header">
+      <h1 class="page-title">// Projects</h1>
+      <p class="page-desc">
+        Shipped titles, commercial tooling, and game jam projects — all focused on performance, runtime systems, and engineering work that matters.
+      </p>
+    </header>
+
+    <div class="projects-grid">
+      {projects.map(p => <ProjectCard project={p} />)}
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .page-wrap {
+    max-width: var(--container);
+    margin: 0 auto;
+    padding: calc(var(--nav-h) + var(--s-8)) var(--s-5) var(--s-8);
+  }
+
+  .page-header {
+    margin-bottom: var(--s-7);
+    border-bottom: 2px solid var(--border);
+    padding-bottom: var(--s-5);
+  }
+
+  .page-title {
+    font-family: var(--font-display);
+    font-size: var(--text-section);
+    color: var(--cyan);
+    margin-bottom: var(--s-3);
+  }
+
+  .page-desc {
+    color: var(--muted);
+    font-size: var(--text-body);
+  }
+
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: var(--s-5);
+  }
+</style>

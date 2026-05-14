@@ -1,0 +1,57 @@
+---
+import social from '../data/social.json';
+---
+
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-links">
+      <a href={social.github} target="_blank" rel="noopener">GitHub</a>
+      <span class="sep" aria-hidden="true">·</span>
+      <a href={social.linkedin} target="_blank" rel="noopener">LinkedIn</a>
+      <span class="sep" aria-hidden="true">·</span>
+      <a href={`mailto:${social.email}`}>Email</a>
+      <span class="sep" aria-hidden="true">·</span>
+      <a href="/rss.xml">RSS</a>
+    </div>
+    <p class="footer-copy">© {new Date().getFullYear()} Satvik Nagpal</p>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    border-top: 2px solid var(--border);
+    padding: var(--s-6) var(--s-5);
+    margin-top: var(--s-8);
+  }
+
+  .footer-inner {
+    max-width: var(--container);
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: var(--s-4);
+  }
+
+  .footer-links {
+    display: flex;
+    align-items: center;
+    gap: var(--s-3);
+    font-size: var(--text-small);
+  }
+
+  .footer-links a {
+    color: var(--muted);
+    transition: color 150ms ease;
+  }
+  .footer-links a:hover,
+  .footer-links a:focus-visible { color: var(--cyan); }
+
+  .sep { color: var(--border); }
+
+  .footer-copy {
+    font-size: var(--text-small);
+    color: var(--muted);
+  }
+</style>

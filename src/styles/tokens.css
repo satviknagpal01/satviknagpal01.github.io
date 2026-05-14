@@ -1,0 +1,71 @@
+/* ─── Design Tokens — Satvik Nagpal Portfolio ─── */
+
+@font-face {
+  font-family: "Orbitron";
+  src: url("/fonts/Orbitron-VariableFont_wght.ttf") format("truetype");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "IBM Plex Mono";
+  src: url("/fonts/ibm-plex-mono-400.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "IBM Plex Mono";
+  src: url("/fonts/ibm-plex-mono-500.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  /* Colors */
+  --bg:      #0A0E2A;
+  --panel:   #0f1630;
+  --surface: #071233;
+  --gold:    #F8D210;
+  --cyan:    #00FFF7;
+  --text:    #e6eef6;
+  --muted:   #9aa0b4;
+  --border:  #22294b;
+
+  /* Typography */
+  --font-display: "Orbitron", monospace;
+  --font-body:    "IBM Plex Mono", monospace;
+
+  /* Responsive type scale */
+  --text-hero:    clamp(28px, 4vw, 48px);
+  --text-section: clamp(20px, 2.4vw, 28px);
+  --text-body:    16px;
+  --text-small:   13px;
+  --text-ui:      12px;
+
+  /* Spacing */
+  --s-1: 4px;
+  --s-2: 8px;
+  --s-3: 12px;
+  --s-4: 16px;
+  --s-5: 24px;
+  --s-6: 32px;
+  --s-7: 48px;
+  --s-8: 64px;
+
+  /* Layout */
+  --container: min(1200px, 92%);
+  --nav-h:     64px;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+  html { scroll-behavior: auto; }
+}

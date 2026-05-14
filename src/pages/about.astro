@@ -1,0 +1,135 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SkillsGrid from '../components/SkillsGrid.astro';
+import about from '../data/about.json';
+---
+
+<BaseLayout
+  title="About"
+  description="Game Developer with 3 years of production Unity experience, focused on rendering performance, runtime systems, and editor tooling."
+>
+  <div class="page-wrap">
+    <header class="page-header">
+      <h1 class="page-title">// About</h1>
+    </header>
+
+    <div class="about-grid">
+      <div class="about-portrait" aria-hidden="true">
+        <div class="portrait-inner">
+          <span class="portrait-icon">&#9786;</span>
+          <div class="portrait-label">SATVIK.exe</div>
+        </div>
+      </div>
+
+      <div class="about-content">
+        <p class="about-bio">{about.tagline}</p>
+        <p class="about-focus">{about.focus}</p>
+        <p class="about-learning"><span class="label">Currently learning —</span> {about.learning}</p>
+      </div>
+    </div>
+
+    <section class="skills-section">
+      <h2 class="section-title">// Skills</h2>
+      <SkillsGrid />
+    </section>
+  </div>
+</BaseLayout>
+
+<style>
+  .page-wrap {
+    max-width: var(--container);
+    margin: 0 auto;
+    padding: calc(var(--nav-h) + var(--s-8)) var(--s-5) var(--s-8);
+  }
+
+  .page-header {
+    margin-bottom: var(--s-7);
+    border-bottom: 2px solid var(--border);
+    padding-bottom: var(--s-5);
+  }
+
+  .page-title {
+    font-family: var(--font-display);
+    font-size: var(--text-section);
+    color: var(--cyan);
+  }
+
+  .about-grid {
+    display: grid;
+    grid-template-columns: 140px 1fr;
+    gap: var(--s-6);
+    align-items: start;
+    margin-bottom: var(--s-8);
+  }
+
+  @media (max-width: 560px) {
+    .about-grid { grid-template-columns: 1fr; }
+  }
+
+  .about-portrait {
+    border: 2px solid var(--border);
+    background: var(--surface);
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .portrait-inner { text-align: center; }
+
+  .portrait-icon {
+    display: block;
+    font-size: 48px;
+    line-height: 1;
+    margin-bottom: var(--s-2);
+  }
+
+  .portrait-label {
+    font-family: var(--font-display);
+    font-size: 8px;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+  }
+
+  .about-content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-4);
+  }
+
+  .about-bio {
+    font-size: var(--text-body);
+    color: var(--text);
+    line-height: 1.7;
+  }
+
+  .about-focus {
+    font-size: var(--text-body);
+    color: var(--muted);
+    line-height: 1.7;
+  }
+
+  .about-learning {
+    font-size: var(--text-small);
+    color: var(--muted);
+    border-left: 2px solid var(--cyan);
+    padding-left: var(--s-4);
+  }
+
+  .label {
+    color: var(--cyan);
+    font-family: var(--font-display);
+    font-size: 10px;
+  }
+
+  .skills-section { margin-top: var(--s-8); }
+
+  .section-title {
+    font-family: var(--font-display);
+    font-size: var(--text-section);
+    color: var(--cyan);
+    margin-bottom: var(--s-6);
+    border-bottom: 2px solid var(--border);
+    padding-bottom: var(--s-3);
+  }
+</style>

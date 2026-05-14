@@ -1,0 +1,51 @@
+---
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import '../styles/tokens.css';
+import '../styles/reset.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+  ogTitle?: string;
+}
+
+const {
+  title = 'Satvik Nagpal — Game Developer',
+  description = 'Game Developer with 3 years of Unity experience focused on performance optimisation, runtime systems, and editor tooling.',
+  ogTitle,
+} = Astro.props;
+
+const fullTitle = title === 'Satvik Nagpal — Game Developer'
+  ? title
+  : `${title} — Satvik Nagpal`;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <meta name="generator" content={Astro.generator} />
+
+    <meta property="og:title" content={ogTitle ?? fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Satvik Nagpal" />
+
+    <title>{fullTitle}</title>
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="alternate" type="application/rss+xml" title="Satvik Nagpal — Writeups" href="/rss.xml" />
+    <link rel="preload" href="/fonts/ibm-plex-mono-400.woff2" as="font" type="font/woff2" crossorigin />
+  </head>
+  <body>
+    <a href="#main" class="skip-link">Skip to main content</a>
+    <Nav />
+    <main id="main" tabindex="-1">
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>
