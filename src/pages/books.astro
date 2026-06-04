@@ -1,19 +1,32 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import '../styles/library.css';
+import { getCollection } from 'astro:content';
+
+const books = (await getCollection('books'))
+  .map(e => e.data)
+  .sort((a, b) =>
+    (b.dateAdded ?? '').localeCompare(a.dateAdded ?? '') ||
+    a.title.localeCompare(b.title)
+  );
+
+const initials = (t: string) =>
+  t.split(' ').slice(0, 2).map(w => w[0] ?? '').join('').toUpperCase() || '??';
 ---
 
 <BaseLayout
   title="Books"
-  description="A personal log of books I own — indexed by title, author, status, and genre."
+  description="A personal log of books I own — searchable by title, author, and status."
 >
   <div class="page-wrap">
-
     <header class="page-header">
       <h1 class="page-title">// Books</h1>
-      <p class="page-desc">Every book I own — a running log.</p>
+      <p class="page-desc">
+        Every book I own — a running log of {books.length}.
+        <a class="page-xlink" href="/wishlist/">Wishlist →</a>
+      </p>
     </header>
 
-    <!-- ── Control bar ── -->
     <div class="controls">
       <input
         type="search"
@@ -30,749 +43,84 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         <option value="Unread">Unread</option>
         <option value="Wishlist">Wishlist</option>
       </select>
-      <select id="genre-filter" class="ctrl-input ctrl-select" aria-label="Filter by genre">
-        <option value="">All genres</option>
-      </select>
-      <button id="add-toggle" class="ctrl-btn" aria-expanded="false" aria-controls="add-panel">
-        + Add book
-      </button>
     </div>
 
-    <!-- ── Add book panel ── -->
-    <div id="add-panel" class="add-panel" hidden>
-      <h2 class="add-heading">// Add a book</h2>
-      <form id="add-form" class="add-form" novalidate>
-
-        <div class="form-row form-row--2">
-          <div class="field">
-            <label class="field-label" for="f-title">
-              Title <span class="req" aria-label="required">*</span>
-            </label>
-            <input id="f-title" type="text" class="field-input" autocomplete="off" />
-          </div>
-          <div class="field">
-            <label class="field-label" for="f-author">
-              Author <span class="req" aria-label="required">*</span>
-            </label>
-            <input id="f-author" type="text" class="field-input" autocomplete="off" />
-          </div>
-        </div>
-
-        <div class="form-row form-row--cover">
-          <div class="field field--grow">
-            <label class="field-label" for="f-cover">
-              Cover URL <span class="opt">(optional)</span>
-            </label>
-            <input id="f-cover" type="url" class="field-input" placeholder="https://…" autocomplete="off" />
-          </div>
-          <div id="cover-preview-wrap" class="cover-preview-wrap" hidden>
-            <img id="cover-preview" class="cover-preview-img" alt="" />
-          </div>
-        </div>
-
-        <div class="form-row form-row--2">
-          <div class="field">
-            <label class="field-label" for="f-status">Status</label>
-            <select id="f-status" class="field-input field-select">
-              <option value="Unread" selected>Unread</option>
-              <option value="Read">Read</option>
-              <option value="Reading">Reading</option>
-              <option value="Wishlist">Wishlist</option>
-            </select>
-          </div>
-          <div class="field">
-            <label class="field-label" for="f-genres">
-              Genres <span class="opt">(comma-separated)</span>
-            </label>
-            <input id="f-genres" type="text" class="field-input" placeholder="sci-fi, classic" autocomplete="off" />
-          </div>
-        </div>
-
-        <div class="form-row form-row--secret">
-          <div class="field field--grow">
-            <label class="field-label" for="f-secret">
-              Secret key <span class="req" aria-label="required">*</span>
-            </label>
-            <input id="f-secret" type="password" class="field-input" autocomplete="current-password" />
-          </div>
-          <label class="remember-label">
-            <input id="f-remember" type="checkbox" class="remember-check" />
-            <span>Remember on this device</span>
-          </label>
-        </div>
-
-        <div class="form-actions">
-          <p id="form-msg" class="form-msg" aria-live="polite"></p>
-          <button type="submit" id="add-submit" class="ctrl-btn">SAVE</button>
-        </div>
-
-      </form>
-    </div>
-
-    <!-- ── Result count ── -->
     <p id="result-count" class="result-count" aria-live="polite" aria-atomic="true"></p>
 
-    <!-- ── Book grid — JS renders cards here ── -->
-    <div id="book-grid" class="book-grid" hidden></div>
+    {books.length === 0 ? (
+      <div class="state-box">
+        <p class="state-text">No books yet — add some in the Keystatic admin.</p>
+      </div>
+    ) : (
+      <div class="book-grid" id="book-grid">
+        {books.map(b => (
+          <article
+            class="book-card"
+            data-title={b.title.toLowerCase()}
+            data-author={b.author.toLowerCase()}
+            data-status={b.status}
+          >
+            <div class="book-thumb" aria-hidden="true">
+              {b.coverURL && (
+                <img class="book-cover-img" src={b.coverURL} alt={b.title} loading="lazy" />
+              )}
+              <span class="book-initials" style={b.coverURL ? 'display:none' : ''}>
+                {initials(b.title)}
+              </span>
+            </div>
+            <div class="book-body">
+              <span class={`book-badge book-badge--${b.status.toLowerCase()}`}>{b.status}</span>
+              <h3 class="book-title">{b.title}</h3>
+              {b.author && <p class="book-author">{b.author}</p>}
+              {b.genres.length > 0 && (
+                <div class="book-chips">
+                  {b.genres.slice(0, 5).map(g => <span class="book-chip">{g}</span>)}
+                </div>
+              )}
+            </div>
+          </article>
+        ))}
+      </div>
+    )}
 
-    <!-- ── States ── -->
-    <div id="state-loading" class="state-box">
-      <span class="loading-text">LOADING<span class="caret" aria-hidden="true">▌</span></span>
-    </div>
-    <div id="state-error" class="state-box" hidden>
-      <p id="error-msg" class="state-text"></p>
-      <button id="retry-btn" class="ctrl-btn">Retry</button>
-    </div>
-    <div id="state-empty" class="state-box" hidden>
-      <p class="state-text">No books yet — hit "+ Add book" above to add your first.</p>
-    </div>
     <div id="state-no-match" class="state-box" hidden>
-      <p class="state-text">No books match — try adjusting the filters.</p>
+      <p class="state-text">No books match — try adjusting search or status.</p>
     </div>
-
   </div>
 </BaseLayout>
 
-<!--
-  Book card styles are global because JS builds these elements at runtime,
-  outside Astro's scoped compile step. All classes are prefixed `book-`
-  to avoid collisions with the rest of the site.
--->
-<style is:global>
-  .book-card {
-    border: 2px solid var(--border);
-    background: var(--surface);
-    display: flex;
-    flex-direction: column;
-    transition: transform 150ms ease, box-shadow 150ms ease;
-  }
-  .book-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(0, 224, 255, 0.06);
-  }
-
-  .book-thumb {
-    height: 160px;
-    background: var(--panel);
-    border-bottom: 2px solid var(--border);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-  }
-  .book-cover-img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-  .book-initials {
-    font-family: var(--font-display);
-    font-size: clamp(18px, 3vw, 28px);
-    color: var(--cyan);
-    letter-spacing: 0.1em;
-    user-select: none;
-  }
-
-  .book-body {
-    padding: var(--s-4) var(--s-5);
-    display: flex;
-    flex-direction: column;
-    gap: var(--s-2);
-    flex: 1;
-  }
-
-  .book-badge {
-    display: inline-block;
-    align-self: flex-start;
-    font-family: var(--font-body);
-    font-size: var(--text-ui);
-    letter-spacing: 0.06em;
-    padding: 1px 7px;
-    border: 1px solid var(--border);
-  }
-  .book-badge--read     { color: var(--cyan); border-color: var(--cyan); }
-  .book-badge--reading  { color: var(--gold); border-color: var(--gold); }
-  .book-badge--unread   { color: var(--muted); }
-  .book-badge--wishlist { color: var(--muted); opacity: 0.55; }
-
-  .book-title {
-    font-family: var(--font-display);
-    font-size: 13px;
-    line-height: 1.4;
-    color: var(--text);
-    margin-top: var(--s-1);
-  }
-  .book-author {
-    font-family: var(--font-body);
-    font-size: var(--text-small);
-    color: var(--muted);
-  }
-
-  .book-chips {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 4px;
-    margin-top: var(--s-1);
-  }
-  .book-chip {
-    display: inline-block;
-    font-family: var(--font-body);
-    font-size: var(--text-ui);
-    color: var(--muted);
-    border: 1px solid var(--border);
-    padding: 1px 6px;
-    background: var(--bg);
-    white-space: nowrap;
-  }
-</style>
-
-<style>
-  /* ── Page shell ── */
-  .page-wrap {
-    max-width: var(--container);
-    margin: 0 auto;
-    padding: calc(var(--nav-h) + var(--s-8)) var(--s-5) var(--s-8);
-  }
-
-  .page-header {
-    margin-bottom: var(--s-7);
-    border-bottom: 2px solid var(--border);
-    padding-bottom: var(--s-5);
-  }
-  .page-title {
-    font-family: var(--font-display);
-    font-size: var(--text-section);
-    color: var(--cyan);
-    margin-bottom: var(--s-3);
-  }
-  .page-desc {
-    font-size: var(--text-body);
-    color: var(--muted);
-  }
-
-  /* ── Controls ── */
-  .controls {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: var(--s-3);
-    margin-bottom: var(--s-5);
-  }
-
-  .ctrl-input {
-    font-family: var(--font-body);
-    font-size: var(--text-small);
-    color: var(--text);
-    background: var(--surface);
-    border: 2px solid var(--border);
-    padding: var(--s-2) var(--s-3);
-    transition: border-color 150ms ease;
-  }
-  .ctrl-input:focus-visible {
-    outline: none;
-    border-color: var(--cyan);
-  }
-  .ctrl-search { flex: 1 1 180px; min-width: 0; }
-  .ctrl-select {
-    appearance: none;
-    -webkit-appearance: none;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M0 0l5 5 5-5' fill='none' stroke='%239aa0b4' stroke-width='1.5'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 10px center;
-    padding-right: 28px;
-    cursor: pointer;
-  }
-  .ctrl-select option { background: var(--panel); color: var(--text); }
-
-  .ctrl-btn {
-    font-family: var(--font-display);
-    font-size: 11px;
-    letter-spacing: 0.04em;
-    color: var(--cyan);
-    background: transparent;
-    border: 2px solid var(--border);
-    padding: var(--s-2) var(--s-4);
-    cursor: pointer;
-    white-space: nowrap;
-    transition: border-color 150ms ease, box-shadow 150ms ease;
-  }
-  .ctrl-btn:hover,
-  .ctrl-btn:focus-visible {
-    outline: none;
-    border-color: var(--cyan);
-    box-shadow: 0 0 8px rgba(0, 255, 247, 0.15);
-  }
-  .ctrl-btn:disabled {
-    opacity: 0.45;
-    cursor: not-allowed;
-    box-shadow: none;
-    border-color: var(--border);
-  }
-
-  /* ── Add panel ── */
-  .add-panel {
-    background: var(--surface);
-    border: 2px solid var(--border);
-    padding: var(--s-6);
-    margin-bottom: var(--s-6);
-  }
-  .add-heading {
-    font-family: var(--font-display);
-    font-size: var(--text-small);
-    color: var(--gold);
-    margin-bottom: var(--s-5);
-    letter-spacing: 0.04em;
-  }
-  .add-form {
-    display: flex;
-    flex-direction: column;
-    gap: var(--s-4);
-  }
-
-  .form-row {
-    display: flex;
-    gap: var(--s-4);
-    flex-wrap: wrap;
-    align-items: flex-start;
-  }
-  .form-row--2 .field    { flex: 1 1 180px; min-width: 0; }
-  .form-row--cover,
-  .form-row--secret      { align-items: flex-end; }
-
-  .field {
-    display: flex;
-    flex-direction: column;
-    gap: var(--s-1);
-  }
-  .field--grow { flex: 1 1 180px; min-width: 0; }
-
-  .field-label {
-    font-family: var(--font-body);
-    font-size: var(--text-small);
-    color: var(--muted);
-  }
-  .req { color: var(--cyan); margin-left: 2px; }
-  .opt { font-size: var(--text-ui); }
-
-  .field-input {
-    font-family: var(--font-body);
-    font-size: var(--text-small);
-    color: var(--text);
-    background: var(--bg);
-    border: 2px solid var(--border);
-    padding: var(--s-2) var(--s-3);
-    width: 100%;
-    transition: border-color 150ms ease;
-  }
-  .field-input:focus-visible {
-    outline: none;
-    border-color: var(--cyan);
-  }
-  .field-select {
-    appearance: none;
-    -webkit-appearance: none;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M0 0l5 5 5-5' fill='none' stroke='%239aa0b4' stroke-width='1.5'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 10px center;
-    padding-right: 28px;
-    cursor: pointer;
-  }
-  .field-select option { background: var(--panel); color: var(--text); }
-
-  .cover-preview-wrap {
-    flex-shrink: 0;
-    width: 60px;
-    height: 75px;
-    border: 2px solid var(--border);
-    overflow: hidden;
-    background: var(--panel);
-  }
-  .cover-preview-img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-
-  .remember-label {
-    display: flex;
-    align-items: center;
-    gap: var(--s-2);
-    font-family: var(--font-body);
-    font-size: var(--text-small);
-    color: var(--muted);
-    cursor: pointer;
-    white-space: nowrap;
-    padding-bottom: 8px;
-  }
-  .remember-check { accent-color: var(--cyan); cursor: pointer; }
-
-  .form-actions {
-    display: flex;
-    align-items: center;
-    gap: var(--s-4);
-    justify-content: flex-end;
-    flex-wrap: wrap;
-  }
-  .form-msg {
-    font-family: var(--font-body);
-    font-size: var(--text-small);
-    flex: 1;
-    min-width: 0;
-  }
-  .form-msg--error   { color: #ff6b6b; }
-  .form-msg--success { color: var(--cyan); }
-
-  /* ── Result count ── */
-  .result-count {
-    font-family: var(--font-body);
-    font-size: var(--text-small);
-    color: var(--muted);
-    margin-bottom: var(--s-4);
-    min-height: 1.2em;
-  }
-
-  /* ── Book grid ── */
-  .book-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
-    gap: var(--s-5);
-  }
-
-  /* ── State boxes ── */
-  .state-box {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: var(--s-4);
-    padding: var(--s-8) 0;
-  }
-  .loading-text {
-    font-family: var(--font-display);
-    font-size: var(--text-small);
-    color: var(--cyan);
-    letter-spacing: 0.12em;
-  }
-  .caret { animation: blink 1s steps(2) infinite; }
-  @keyframes blink {
-    0%, 100% { opacity: 1; }
-    50%       { opacity: 0; }
-  }
-  .state-text {
-    font-family: var(--font-body);
-    font-size: var(--text-body);
-    color: var(--muted);
-    text-align: center;
-  }
-
-  /* ── Mobile ── */
-  @media (max-width: 600px) {
-    .ctrl-search       { flex-basis: 100%; }
-    .add-panel         { padding: var(--s-4); }
-    .form-row--2 .field { flex-basis: 100%; }
-  }
-</style>
-
 <script>
-  // ── Replace this with your deployed Apps Script URL ──────────────────────
-  const GATEWAY_URL = 'https://script.google.com/macros/s/AKfycbzkySJ2U2m6Vz2SGsrTRzrV3GZxoINhcK0VZDAORKD710BoKwcj-CQ3Vq014DIq_ZJL/exec';
-  // ─────────────────────────────────────────────────────────────────────────
+  const search    = document.getElementById('search') as HTMLInputElement | null;
+  const statusSel = document.getElementById('status-filter') as HTMLSelectElement | null;
+  const count     = document.getElementById('result-count');
+  const noMatch   = document.getElementById('state-no-match');
+  const cards     = Array.from(document.querySelectorAll<HTMLElement>('.book-card'));
 
-  const SECRET_KEY = 'books_page_secret';
-
-  interface Book {
-    title: string;
-    author: string;
-    coverURL: string;
-    status: string;
-    genres: string[];
-    dateAdded: string | null;
-  }
-
-  const state = {
-    books: [] as Book[],
-    filters: { search: '', status: '', genre: '' },
-  };
-
-  // DOM refs
-  const grid         = document.getElementById('book-grid')!;
-  const stLoading    = document.getElementById('state-loading')!;
-  const stError      = document.getElementById('state-error')!;
-  const stEmpty      = document.getElementById('state-empty')!;
-  const stNoMatch    = document.getElementById('state-no-match')!;
-  const errorMsgEl   = document.getElementById('error-msg')!;
-  const resultCount  = document.getElementById('result-count')!;
-  const searchInput  = document.getElementById('search')         as HTMLInputElement;
-  const statusFilter = document.getElementById('status-filter')  as HTMLSelectElement;
-  const genreFilter  = document.getElementById('genre-filter')   as HTMLSelectElement;
-  const addToggle    = document.getElementById('add-toggle')     as HTMLButtonElement;
-  const addPanel     = document.getElementById('add-panel')      as HTMLElement;
-  const addForm      = document.getElementById('add-form')       as HTMLFormElement;
-  const addSubmit    = document.getElementById('add-submit')     as HTMLButtonElement;
-  const formMsgEl    = document.getElementById('form-msg')!;
-  const fTitle       = document.getElementById('f-title')        as HTMLInputElement;
-  const fAuthor      = document.getElementById('f-author')       as HTMLInputElement;
-  const fCover       = document.getElementById('f-cover')        as HTMLInputElement;
-  const fStatus      = document.getElementById('f-status')       as HTMLSelectElement;
-  const fGenres      = document.getElementById('f-genres')       as HTMLInputElement;
-  const fSecret      = document.getElementById('f-secret')       as HTMLInputElement;
-  const fRemember    = document.getElementById('f-remember')     as HTMLInputElement;
-  const coverWrap    = document.getElementById('cover-preview-wrap') as HTMLElement;
-  const coverImg     = document.getElementById('cover-preview')      as HTMLImageElement;
-  const retryBtn     = document.getElementById('retry-btn')      as HTMLButtonElement;
-
-  // ── State visibility ────────────────────────────────────────────────────
-  type Panel = 'loading' | 'error' | 'empty' | 'nomatch' | 'grid';
-
-  function showPanel(which: Panel, msg?: string) {
-    stLoading.hidden = which !== 'loading';
-    stError.hidden   = which !== 'error';
-    stEmpty.hidden   = which !== 'empty';
-    stNoMatch.hidden = which !== 'nomatch';
-    grid.hidden      = which !== 'grid';
-    if (which === 'error' && msg) errorMsgEl.textContent = msg;
-  }
-
-  // ── Fetch ────────────────────────────────────────────────────────────────
-  async function fetchBooks() {
-    showPanel('loading');
-    try {
-      const res = await fetch(GATEWAY_URL);
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      const data = await res.json() as { ok: boolean; books?: Book[]; error?: string };
-      if (!data.ok) throw new Error(data.error ?? 'gateway error');
-      state.books = (data.books ?? [])
-        .map(b => ({
-          title:     String(b.title     ?? ''),
-          author:    String(b.author    ?? ''),
-          coverURL:  String(b.coverURL  ?? ''),
-          status:    String(b.status    ?? 'Unread'),
-          genres:    Array.isArray(b.genres) ? b.genres.map(String) : [],
-          dateAdded: b.dateAdded ?? null,
-        }))
-        .sort((a, b) => (+new Date(b.dateAdded ?? 0)) - (+new Date(a.dateAdded ?? 0)));
-      buildGenreOptions();
-      renderGrid();
-    } catch (err) {
-      showPanel('error', `${(err as Error).message} — check the gateway URL or try again.`);
+  function apply() {
+    const q  = (search?.value ?? '').trim().toLowerCase();
+    const st = statusSel?.value ?? '';
+    let shown = 0;
+    for (const card of cards) {
+      const okText   = !q || (card.dataset.title ?? '').includes(q) || (card.dataset.author ?? '').includes(q);
+      const okStatus = !st || card.dataset.status === st;
+      const show = okText && okStatus;
+      card.style.display = show ? '' : 'none';
+      if (show) shown++;
     }
+    if (count) count.textContent = `${shown} book${shown !== 1 ? 's' : ''}`;
+    if (noMatch) noMatch.hidden = shown !== 0 || cards.length === 0;
   }
 
-  // ── Render ───────────────────────────────────────────────────────────────
-  function renderGrid() {
-    if (state.books.length === 0) {
-      resultCount.textContent = '';
-      showPanel('empty');
-      return;
-    }
+  search?.addEventListener('input', apply);
+  statusSel?.addEventListener('change', apply);
+  apply();
 
-    const { search, status, genre } = state.filters;
-    const q = search.toLowerCase();
-    const filtered = state.books.filter(b => {
-      if (q && !b.title.toLowerCase().includes(q) && !b.author.toLowerCase().includes(q)) return false;
-      if (status && b.status !== status) return false;
-      if (genre && !(b.genres ?? []).includes(genre)) return false;
-      return true;
+  // Broken cover URL → fall back to the initials tile.
+  for (const img of document.querySelectorAll<HTMLImageElement>('.book-cover-img')) {
+    img.addEventListener('error', () => {
+      img.style.display = 'none';
+      const init = img.parentElement?.querySelector<HTMLElement>('.book-initials');
+      if (init) init.style.display = '';
     });
-
-    if (filtered.length === 0) {
-      resultCount.textContent = '0 books';
-      showPanel('nomatch');
-      return;
-    }
-
-    resultCount.textContent = `${filtered.length} book${filtered.length !== 1 ? 's' : ''}`;
-    showPanel('grid');
-    grid.replaceChildren(...filtered.map(buildCard));
   }
-
-  // ── Build card ──────────────────────────────────────────────────────────
-  function buildCard(book: Book): HTMLElement {
-    const article = document.createElement('article');
-    article.className = 'book-card';
-
-    const thumb = document.createElement('div');
-    thumb.className = 'book-thumb';
-    thumb.setAttribute('aria-hidden', 'true');
-
-    if (book.coverURL) {
-      const img = document.createElement('img');
-      img.className = 'book-cover-img';
-      img.src = book.coverURL;
-      img.alt = book.title;
-      img.onerror = () => { thumb.replaceChildren(makeFallback(book.title)); };
-      thumb.appendChild(img);
-    } else {
-      thumb.appendChild(makeFallback(book.title));
-    }
-
-    const body = document.createElement('div');
-    body.className = 'book-body';
-
-    const badge = document.createElement('span');
-    badge.className = `book-badge book-badge--${book.status.toLowerCase()}`;
-    badge.textContent = book.status;
-
-    const titleEl = document.createElement('h3');
-    titleEl.className = 'book-title';
-    titleEl.textContent = book.title;
-
-    const authorEl = document.createElement('p');
-    authorEl.className = 'book-author';
-    authorEl.textContent = book.author;
-
-    const chips = document.createElement('div');
-    chips.className = 'book-chips';
-    for (const g of (book.genres ?? [])) {
-      const chip = document.createElement('span');
-      chip.className = 'book-chip';
-      chip.textContent = g;
-      chips.appendChild(chip);
-    }
-
-    body.append(badge, titleEl, authorEl, chips);
-    article.append(thumb, body);
-    return article;
-  }
-
-  function makeFallback(title: string): HTMLElement {
-    const span = document.createElement('span');
-    span.className = 'book-initials';
-    const t = String(title ?? '');
-    span.textContent =
-      t.split(' ').slice(0, 2).map(w => w[0] ?? '').join('').toUpperCase() || '??';
-    return span;
-  }
-
-  // ── Genre options ────────────────────────────────────────────────────────
-  function buildGenreOptions() {
-    const current = genreFilter.value;
-    const all = new Set<string>();
-    for (const b of state.books) for (const g of (b.genres ?? [])) all.add(g);
-    while (genreFilter.options.length > 1) genreFilter.remove(1);
-    for (const g of [...all].sort()) {
-      const opt = document.createElement('option');
-      opt.value = g;
-      opt.textContent = g;
-      genreFilter.appendChild(opt);
-    }
-    if (current && all.has(current)) genreFilter.value = current;
-  }
-
-  // ── Add-panel toggle ─────────────────────────────────────────────────────
-  addToggle.addEventListener('click', () => {
-    const opening = addPanel.hidden;
-    addPanel.hidden = !opening;
-    addToggle.setAttribute('aria-expanded', String(opening));
-    if (opening) {
-      const saved = localStorage.getItem(SECRET_KEY);
-      if (saved) { fSecret.value = saved; fRemember.checked = true; }
-      fTitle.focus();
-    }
-  });
-
-  // ── Cover preview ────────────────────────────────────────────────────────
-  let coverTimer: ReturnType<typeof setTimeout>;
-  fCover.addEventListener('input', () => {
-    clearTimeout(coverTimer);
-    coverTimer = setTimeout(() => {
-      const url = fCover.value.trim();
-      if (url && /^https?:\/\/.+/.test(url)) {
-        coverImg.onload  = () => { coverWrap.hidden = false; };
-        coverImg.onerror = () => { coverWrap.hidden = true; };
-        coverImg.src = url;
-      } else {
-        coverWrap.hidden = true;
-        coverImg.src = '';
-      }
-    }, 400);
-  });
-
-  // ── Filters ──────────────────────────────────────────────────────────────
-  searchInput .addEventListener('input',  () => { state.filters.search = searchInput.value;  renderGrid(); });
-  statusFilter.addEventListener('change', () => { state.filters.status = statusFilter.value; renderGrid(); });
-  genreFilter .addEventListener('change', () => { state.filters.genre  = genreFilter.value;  renderGrid(); });
-
-  retryBtn.addEventListener('click', fetchBooks);
-
-  // ── Submit ───────────────────────────────────────────────────────────────
-  addForm.addEventListener('submit', async (e: Event) => {
-    e.preventDefault();
-    const title    = fTitle.value.trim();
-    const author   = fAuthor.value.trim();
-    const coverURL = fCover.value.trim();
-    const status   = fStatus.value;
-    const genres   = fGenres.value.trim();
-    const secret   = fSecret.value;
-
-    if (!title)  { setMsg('Title is required.',       'error'); fTitle.focus();  return; }
-    if (!author) { setMsg('Author is required.',      'error'); fAuthor.focus(); return; }
-    if (!secret) { setMsg('Secret key is required.',  'error'); fSecret.focus(); return; }
-    if (coverURL && !/^https?:\/\/.+/.test(coverURL)) {
-      setMsg('Cover URL must start with https://', 'error'); fCover.focus(); return;
-    }
-
-    addSubmit.disabled    = true;
-    addSubmit.textContent = 'SAVING▌';
-    setMsg('', '');
-
-    const payload = {
-      secret,
-      title,
-      author,
-      coverURL,
-      status,
-      genres: genres ? genres.split(',').map(g => g.trim()).filter(Boolean) : [],
-    };
-
-    try {
-      const res  = await fetch(GATEWAY_URL, {
-        method : 'POST',
-        headers: { 'Content-Type': 'text/plain' },
-        body   : JSON.stringify(payload),
-      });
-      const data = await res.json() as { ok: boolean; book?: Book; error?: string };
-
-      if (data.ok && data.book) {
-        if (fRemember.checked) {
-          localStorage.setItem(SECRET_KEY, secret);
-        } else {
-          localStorage.removeItem(SECRET_KEY);
-        }
-
-        const book: Book = {
-          ...data.book,
-          genres: Array.isArray(data.book.genres)
-            ? data.book.genres
-            : String(data.book.genres ?? '').split(',').map((g: string) => g.trim()).filter(Boolean),
-        };
-        state.books.unshift(book);
-        buildGenreOptions();
-        renderGrid();
-
-        fTitle.value = ''; fAuthor.value = ''; fCover.value = '';
-        fStatus.value = 'Unread'; fGenres.value = '';
-        coverWrap.hidden = true;
-        setMsg('✓ Added', 'success');
-
-      } else if (data.error === 'unauthorized') {
-        setMsg('Wrong key — check your secret.', 'error');
-      } else {
-        setMsg(`Error: ${data.error ?? 'unknown'}`, 'error');
-      }
-    } catch {
-      setMsg('Network error — check your connection.', 'error');
-      setTimeout(fetchBooks, 1500);
-    } finally {
-      addSubmit.disabled    = false;
-      addSubmit.textContent = 'SAVE';
-    }
-  });
-
-  function setMsg(text: string, type: string) {
-    formMsgEl.textContent = text;
-    formMsgEl.className = text ? `form-msg form-msg--${type}` : 'form-msg';
-  }
-
-  // ── Init ─────────────────────────────────────────────────────────────────
-  fetchBooks();
 </script>
