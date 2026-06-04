@@ -1,0 +1,131 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import '../styles/library.css';
+import { getCollection } from 'astro:content';
+
+const priorityRank: Record<string, number> = { High: 0, Medium: 1, Low: 2 };
+
+const items = (await getCollection('wishlist'))
+  .map(e => e.data)
+  .sort((a, b) =>
+    (priorityRank[a.priority] ?? 1) - (priorityRank[b.priority] ?? 1) ||
+    (b.dateAdded ?? '').localeCompare(a.dateAdded ?? '') ||
+    a.title.localeCompare(b.title)
+  );
+
+const initials = (t: string) =>
+  t.split(' ').slice(0, 2).map(w => w[0] ?? '').join('').toUpperCase() || '??';
+---
+
+<BaseLayout
+  title="Wishlist"
+  description="Books I want — a running wishlist with priority, price, and where to buy."
+>
+  <div class="page-wrap">
+    <header class="page-header">
+      <h1 class="page-title">// Wishlist</h1>
+      <p class="page-desc">
+        Books I want — a running wishlist.
+        <a class="page-xlink" href="/books/">← Books</a>
+      </p>
+    </header>
+
+    {items.length === 0 ? (
+      <div class="state-box">
+        <p class="state-text">Nothing on the wishlist yet — add some in the Keystatic admin.</p>
+      </div>
+    ) : (
+      <>
+        <div class="controls">
+          <input
+            type="search"
+            id="search"
+            class="ctrl-input ctrl-search"
+            placeholder="Search title or author…"
+            aria-label="Search wishlist"
+            autocomplete="off"
+          />
+          <select id="priority-filter" class="ctrl-input ctrl-select" aria-label="Filter by priority">
+            <option value="">All priorities</option>
+            <option value="High">High</option>
+            <option value="Medium">Medium</option>
+            <option value="Low">Low</option>
+          </select>
+        </div>
+
+        <p id="result-count" class="result-count" aria-live="polite" aria-atomic="true"></p>
+
+        <div class="book-grid" id="book-grid">
+          {items.map(it => (
+            <article
+              class="book-card"
+              data-title={it.title.toLowerCase()}
+              data-author={it.author.toLowerCase()}
+              data-priority={it.priority}
+            >
+              <div class="book-thumb" aria-hidden="true">
+                {it.coverURL && (
+                  <img class="book-cover-img" src={it.coverURL} alt={it.title} loading="lazy" />
+                )}
+                <span class="book-initials" style={it.coverURL ? 'display:none' : ''}>
+                  {initials(it.title)}
+                </span>
+              </div>
+              <div class="book-body">
+                <span class={`book-badge book-badge--${it.priority.toLowerCase()}`}>{it.priority}</span>
+                <h3 class="book-title">{it.title}</h3>
+                {it.author && <p class="book-author">{it.author}</p>}
+                {it.price && <p class="book-price">{it.price}</p>}
+                {it.note && <p class="book-note">{it.note}</p>}
+                {it.buyLink && (
+                  <a class="book-buy" href={it.buyLink} target="_blank" rel="noopener">Buy ↗</a>
+                )}
+              </div>
+            </article>
+          ))}
+        </div>
+
+        <div id="state-no-match" class="state-box" hidden>
+          <p class="state-text">No items match — try adjusting search or priority.</p>
+        </div>
+      </>
+    )}
+  </div>
+</BaseLayout>
+
+<script>
+  const search   = document.getElementById('search') as HTMLInputElement | null;
+  const prioSel  = document.getElementById('priority-filter') as HTMLSelectElement | null;
+  const count    = document.getElementById('result-count');
+  const noMatch  = document.getElementById('state-no-match');
+  const cards    = Array.from(document.querySelectorAll<HTMLElement>('.book-card'));
+
+  function apply() {
+    const q  = (search?.value ?? '').trim().toLowerCase();
+    const pr = prioSel?.value ?? '';
+    let shown = 0;
+    for (const card of cards) {
+      const okText = !q || (card.dataset.title ?? '').includes(q) || (card.dataset.author ?? '').includes(q);
+      const okPrio = !pr || card.dataset.priority === pr;
+      const show = okText && okPrio;
+      card.style.display = show ? '' : 'none';
+      if (show) shown++;
+    }
+    if (count) count.textContent = `${shown} item${shown !== 1 ? 's' : ''}`;
+    if (noMatch) noMatch.hidden = shown !== 0 || cards.length === 0;
+  }
+
+  if (cards.length) {
+    search?.addEventListener('input', apply);
+    prioSel?.addEventListener('change', apply);
+    apply();
+  }
+
+  for (const img of document.querySelectorAll<HTMLImageElement>('.book-cover-img')) {
+    img.addEventListener('error', () => {
+      img.style.display = 'none';
+      const init = img.parentElement?.querySelector<HTMLElement>('.book-initials');
+      if (init) init.style.display = '';
+    });
+  }
+</script>

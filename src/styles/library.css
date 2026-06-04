@@ -1,0 +1,214 @@
+/*
+  Shared styles for the /books and /wishlist library pages.
+  Cards are now server-rendered (static HTML), so these can be a plain global
+  stylesheet imported by both pages.
+*/
+
+/* ── Page shell ── */
+.page-wrap {
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: calc(var(--nav-h) + var(--s-8)) var(--s-5) var(--s-8);
+}
+.page-header {
+  margin-bottom: var(--s-7);
+  border-bottom: 2px solid var(--border);
+  padding-bottom: var(--s-5);
+}
+.page-title {
+  font-family: var(--font-display);
+  font-size: var(--text-section);
+  color: var(--cyan);
+  margin-bottom: var(--s-3);
+}
+.page-desc {
+  font-size: var(--text-body);
+  color: var(--muted);
+}
+.page-xlink {
+  font-family: var(--font-body);
+  font-size: var(--text-small);
+  color: var(--cyan);
+  margin-left: var(--s-2);
+  white-space: nowrap;
+  transition: color 150ms ease;
+}
+.page-xlink:hover,
+.page-xlink:focus-visible { color: var(--gold); }
+
+/* ── Controls ── */
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s-3);
+  margin-bottom: var(--s-5);
+}
+.ctrl-input {
+  font-family: var(--font-body);
+  font-size: var(--text-small);
+  color: var(--text);
+  background: var(--surface);
+  border: 2px solid var(--border);
+  padding: var(--s-2) var(--s-3);
+  transition: border-color 150ms ease;
+}
+.ctrl-input:focus-visible { outline: none; border-color: var(--cyan); }
+.ctrl-search { flex: 1 1 220px; min-width: 0; }
+.ctrl-select {
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M0 0l5 5 5-5' fill='none' stroke='%239aa0b4' stroke-width='1.5'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  padding-right: 28px;
+  cursor: pointer;
+}
+.ctrl-select option { background: var(--panel); color: var(--text); }
+
+/* ── Result count ── */
+.result-count {
+  font-family: var(--font-body);
+  font-size: var(--text-small);
+  color: var(--muted);
+  margin-bottom: var(--s-4);
+  min-height: 1.2em;
+}
+
+/* ── Grid ── */
+.book-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+  gap: var(--s-5);
+}
+
+/* ── Card ── */
+.book-card {
+  border: 2px solid var(--border);
+  background: var(--surface);
+  display: flex;
+  flex-direction: column;
+  transition: transform 150ms ease, box-shadow 150ms ease;
+}
+.book-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 224, 255, 0.06);
+}
+.book-thumb {
+  position: relative;
+  height: 160px;
+  background: var(--panel);
+  border-bottom: 2px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.book-cover-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.book-initials {
+  font-family: var(--font-display);
+  font-size: clamp(18px, 3vw, 28px);
+  color: var(--cyan);
+  letter-spacing: 0.1em;
+  user-select: none;
+}
+.book-body {
+  padding: var(--s-4) var(--s-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-2);
+  flex: 1;
+}
+.book-badge {
+  display: inline-block;
+  align-self: flex-start;
+  font-family: var(--font-body);
+  font-size: var(--text-ui);
+  letter-spacing: 0.06em;
+  padding: 1px 7px;
+  border: 1px solid var(--border);
+}
+/* Book statuses */
+.book-badge--read     { color: var(--cyan); border-color: var(--cyan); }
+.book-badge--reading  { color: var(--gold); border-color: var(--gold); }
+.book-badge--unread   { color: var(--muted); }
+.book-badge--wishlist { color: var(--muted); opacity: 0.55; }
+/* Wishlist priorities */
+.book-badge--high     { color: var(--gold); border-color: var(--gold); }
+.book-badge--medium   { color: var(--cyan); border-color: var(--cyan); }
+.book-badge--low      { color: var(--muted); }
+
+.book-title {
+  font-family: var(--font-display);
+  font-size: 13px;
+  line-height: 1.4;
+  color: var(--text);
+  margin-top: var(--s-1);
+}
+.book-author {
+  font-family: var(--font-body);
+  font-size: var(--text-small);
+  color: var(--muted);
+}
+.book-price {
+  font-family: var(--font-body);
+  font-size: var(--text-small);
+  color: var(--text);
+}
+.book-note {
+  font-family: var(--font-body);
+  font-size: var(--text-small);
+  color: var(--muted);
+  line-height: 1.5;
+}
+.book-buy {
+  font-family: var(--font-body);
+  font-size: var(--text-small);
+  color: var(--cyan);
+  margin-top: auto;
+  padding-top: var(--s-2);
+  transition: color 150ms ease;
+}
+.book-buy:hover,
+.book-buy:focus-visible { color: var(--gold); }
+
+.book-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-top: var(--s-1);
+}
+.book-chip {
+  display: inline-block;
+  font-family: var(--font-body);
+  font-size: var(--text-ui);
+  color: var(--muted);
+  border: 1px solid var(--border);
+  padding: 1px 6px;
+  background: var(--bg);
+  white-space: nowrap;
+}
+
+/* ── States ── */
+.state-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--s-4);
+  padding: var(--s-8) 0;
+}
+.state-text {
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  color: var(--muted);
+  text-align: center;
+}
+
+/* ── Mobile ── */
+@media (max-width: 600px) {
+  .ctrl-search { flex-basis: 100%; }
+}
